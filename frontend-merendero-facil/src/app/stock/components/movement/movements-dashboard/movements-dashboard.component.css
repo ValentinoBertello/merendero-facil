@@ -1,0 +1,138 @@
+/* Titulo principal */
+.step-title {
+  font-size: 1.81rem;
+  margin-top: 7px;
+  margin-bottom: 30px;
+  position: relative;
+  width: fit-content;
+  color: #444444;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* --------------------------------------------------
+   Custom Container: idéntico en anchura que Bootstrap,
+   pero con menos padding lateral (10px en lugar de 15px)
+   -------------------------------------------------- */
+.custom-container {
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* contenedor promedios */
+.parrafo-promedio {
+  margin-top: 20px;
+  margin-bottom: -8px;
+  font-family: 'Poppins';
+}
+
+/* Titulo de entradas y salidas totales arriba del primer grafico de torta */
+.mini-title-entr-sal {
+  color: #46525c;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14.99px;
+}
+
+.subra-green {
+  border-bottom: 3px solid #2ca58da9;
+}
+
+.subra-red {
+  border-bottom: 3px solid #ff6565ad;
+}
+
+/* Titulo de tipos de entradas*/
+.tipos-de-entrada {
+  color: #46525c;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-bottom: -2.1px;
+  font-size: 17px;
+}
+
+/* Estilos para los labels de los promedios */
+.datos-by-group {
+  font-family: Poppins;
+  border-bottom: 2px solid #c7bdba73;
+}
+
+/* Estilos para los resultados de los promedios */
+.resultados-promedios {
+  font-family: Poppins;
+  font-size: 13px;
+  font-weight: 600;
+  color: #46525c;
+}
+
+/* Grupo para el botón aplicar */
+.aplicar-group {
+  display: flex;
+  align-items: center;
+  margin-top: 41.2px;
+}
+
+/* Animación sutil de atención para el botón Aplicar - 3 segundos */
+.btn-primary.attention-pulse {
+  animation: attentionPulse 2s ease-in-out infinite;
+  border-color: #2065e4;
+  box-shadow: 0 0 0 2px rgb(10, 29, 201);
+}
+
+@keyframes attentionPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0.7);
+  }
+
+  25% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0.3);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px rgba(32, 156, 228, 0);
+  }
+
+  75% {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0);
+  }
+}
+
+/* pantallas mas chicas */
+@media (max-width: 1550px) {
+
+  /* todas las columnas pasan a ocupar el 100% de ancho */
+  .col-md-6,
+  .col-md-3,
+  .col-md-5,
+  .col-md-2 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .aplicar-group {
+    margin-top: 16px !important;
+  }
+}
+
+/* Solo aplica en pantallas grandes (no móviles) y altura mayor a 800px */
+@media (min-height: 800px) and (min-width: 768px) {
+  .left-graficos {
+    margin-top: 64px;
+  }
+
+  .last-parrafo {
+    font-size: 20px;
+    margin-top: 68px;
+  }
+}

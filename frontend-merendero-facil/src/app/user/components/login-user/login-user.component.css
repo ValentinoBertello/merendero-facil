@@ -1,0 +1,114 @@
+/* Container global personanilzado para cambiar el orden de las cosas */
+.container-per {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Contenedor principal de formulario */
+.container-form {
+  max-width: 700px;
+  margin: -9px auto 0;
+  padding: 16px 30px 0 30px;
+  background: #fff;
+  border-radius: 16px;
+  border: 2px solid #ffd8a8;
+  box-shadow: var(--shadow-1), var(--shadow-2);
+  position: relative;
+}
+
+/* Inputs */
+.form-control {
+  border: 2px solid #ffe5cc;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #ffb343;
+  box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+  background-color: #fffaf4;
+}
+
+/* Boton para ingresar */
+.submit-btn {
+  margin-top: 10px;
+  background-color: #da8300;
+  color: #ffffff;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin: auto;
+}
+
+.submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+  background-color: #6B4226 !important;
+}
+
+/* Titulo principal */
+.step-title {
+  font-size: 2.2rem;
+  margin: -8px auto 30px auto;
+  text-align: center;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-bottom: 3px solid #ffd000
+}
+
+/* Cartel con cuenta demo */
+.demo-creds {
+  position: absolute;
+  top: 170px;
+  right: 95px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+}
+
+.demo-title {
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  margin-left: 12px;
+}
+
+.demo-info {
+  padding: 12px;
+  font-size: 0.9rem;
+}
+
+.demo-info p {
+  margin: 8px 0;
+}
+
+/* Footer pack*/
+.footer-pack {
+  padding-top: 100px !important;
+  padding-bottom: 10px !important;
+}
+
+/* Responsive */
+@media (max-width: 998px) {
+  .step-title {
+    font-size: 28px;
+    border-bottom-width: 2px;
+    border-bottom: 0px solid #ffd000;
+    margin-top: -20px;
+    margin-bottom: 16px;
+  }
+  .demo-creds {
+    order: 2;
+    position: static;
+    width: 100%;
+    margin: 20px 0;
+  }
+  .footer-pack {
+    display: none;
+  }
+}

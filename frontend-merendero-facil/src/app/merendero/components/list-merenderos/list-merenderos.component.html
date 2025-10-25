@@ -1,0 +1,129 @@
+<!-- Contenedor general -->
+<div class="global-container">
+  <!-- Contenedor con la lista de la izquierda -->
+  <div class="locations-list">
+
+    <!-- Panel de filtros expandido -->
+    @if (showFilters) {
+    <app-merendero-filter-panel [filters]="filters" (apply)="onApplyFilters($event)"
+      (close)="showFilters = false">
+    </app-merendero-filter-panel>
+    }
+
+    <!-- PANEL DE INFORMACION -->
+    @if (showInfoPanel) {
+    <app-merendero-info-panel [merendero]="selectedMerendero" [showInfoPanel]="showInfoPanel"
+      (closed)="cerrarInfoMerendero()">
+    </app-merendero-info-panel>
+    }
+
+
+    <!-- Buscador de merenderos -->
+    @if (!showFilters && !showInfoPanel) {
+    <div class="search-container mb-1">
+      <div class="input-group">
+        <input type="text" [(ngModel)]="filterText" (input)="filterMerenderos()" class="search-input"
+          placeholder="Buscar por nombre o dirección" />
+        <button class="filter-button-inside" (click)="showFilters = !showFilters" [class.active]="showFilters">
+          Filtrar
+        </button>
+      </div>
+    </div>
+
+    <!-- Indicador de carga durante el ordenamiento -->
+    @if (isSorting) {
+    <div class="sorting-indicator" style="margin-bottom: -10px; margin-top: 9px;">
+      <div class="spinner-border spinner-border-sm text-warning" role="status">
+        <span class="visually-hidden">Ordenando...</span>
+      </div> <span style="font-family: Poppins;"> Cargando</span>
+    </div>
+    }
+
+    }
+
+    <!-- Lista de merenderos -->
+    @for (location of filteredMerenderos; track location; let i = $index) {
+    @if ( i < 6) { <!-- prettier-ignore -->
+      @if (!showFilters && !showInfoPanel) {
+      <!-- prettier-ignore -->
+      <!-- Tarjeta individual de merendero -->
+      <div class="location-card" id="merendero-{{ location.id }}" #locationCard [class.selected]="location.id === selectedMerenderoId">
+
+        <h3 class="location-name">
+          <!-- Nombre -->
+          <span class="name-text" (click)="goToPlace(location, $index)">
+            {{ location.name }}
+          </span>
+          <!-- Botón de info -->
+          <button class="info-btn" (click)="abrirInfoMerendero(location, $index); $event.stopPropagation();"
+            aria-label="Información del merendero">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+              <text x="12" y="16" text-anchor="middle" font-size="12" fill="currentColor"
+                font-family="Arial, sans-serif" font-weight="bold">i</text>
+            </svg>
+          </button>
+        </h3>
+
+        <p class="location-address">{{ location.address }}</p>
+
+        <!-- Boton eliminar (ADMIN) -->
+        @if (authService.isAuthenticated() && authService.hasRole('ADMIN')) {
+        <button style="color: red;" class="mb-3" (click)="deleteMerendero(location.id)">Eliminar Merendero</button>
+        }
+
+        <!-- Boton ver merendero (ENCARAGDO de ese merendero) -->
+        @if (authService.isAuthenticated() && authService.getCurrentUserEmail() == location.managerEmail) {
+        <button class="day-chip" (click)="irAMiMerendero()">Ir a mi merendero</button>
+        }
+        <!-- Boton donar (logueado) -->
+        @else if(authService.isAuthenticated() && authService.getCurrentUserEmail() !== location.managerEmail) {
+        <a class="btn mercado-pago-btn d-flex align-items-center justify-content-center gap-2"
+          [routerLink]="['/donate', location.id]">
+          <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.9/mercadopago/logo__small@2x.png"
+            alt="Mercado Pago" height="20" style="filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1))">
+          Donar
+        </a>
+        }
+        <!-- Boton donar (NO logueado) -->
+        @else {
+        <button (click)="pestaniaNoAut()"
+          class="btn mercado-pago-btn d-flex align-items-center justify-content-center gap-2"> <img
+            src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.9/mercadopago/logo__small@2x.png"
+            alt="Mercado Pago" height="20" style="filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1))"> Donar</button>
+        }
+      </div>
+      } } }
+
+      <!-- FOOTER -->
+      <div class=" mt-4">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+          routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+            aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+          routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+            aria-hidden="true"></i></a>
+      </div>
+  </div>
+
+  <!-- Contenedor del MAPA -->
+  <div class="locations-map">
+
+    <!--  Componente de Google Maps de Angular  -->
+    <google-map (mapInitialized)="onMapInitialized($event)" mapId="afaebc583687a497" height="100%" width="100%"
+      [zoom]="13" [center]="center">
+      <!--  Bucle que crea Markers para cada merendero filtrado -->
+      @for (merendero of filteredMerenderos; track merendero.id) {
+      <!-- con #marker="mapAdvancedMarker" creamos una referencia local del marker -->
+      <map-advanced-marker #marker="mapAdvancedMarker"
+        [position]="{ lat: +merendero.latitude, lng: +merendero.longitude }"
+        (mapClick)="onMarkerClick(merendero, marker)" />
+      }
+
+      <!-- Ventana de información que se muestra al hacer clic en un marcador -->
+      <map-info-window />
+
+    </google-map>
+  </div>
+</div>

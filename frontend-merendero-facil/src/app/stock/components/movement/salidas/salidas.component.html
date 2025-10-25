@@ -1,0 +1,132 @@
+<!-- Spinner de carga -->
+@if (isLoading) {
+<div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+}
+
+@if (!isLoading) {
+<div class="container mt-3">
+
+  <div>
+    <h4 class="text-center red-title" style="margin-top: 10px;">
+      <i class="fas fa-angle-double-down me-1"></i> Salidas
+    </h4>
+
+    <!-- FILTROS -->
+    <div style="margin-top: -5px;" class="row mb-1">
+      <!-- Desde -->
+      <div class="col-md-2">
+        <label class="form-label">Fecha desde</label>
+        <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()" />
+      </div>
+      <!-- Hasta -->
+      <div class="col-md-2">
+        <label class="form-label">Fecha hasta</label>
+        <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()" />
+      </div>
+      <!-- Search -->
+      <div class="col-md-3">
+        <label class="form-label">Buscar insumo</label>
+        <input type="text" class="form-control" placeholder="Ej: Arroz" (ngModelChange)="onAnyFilterChange()"
+          [(ngModel)]="searchSupplies">
+      </div>
+      <!-- Ordenamiento -->
+      <div class="col-md-2  ">
+        <label class="form-label">Ordenar por...</label>
+        <div class="d-flex align-items-center">
+          <select class="form-select" [(ngModel)]="sortField" (ngModelChange)="onAnyFilterChange()">
+            <option value="fecha">Fecha</option>
+            <option value="cantidad">Cantidad</option>
+            <option value="nombre">Nombre</option>
+          </select>
+          <button class="green-btn" style="padding: 17px 6px 17px 6px;" (click)="toggleSortDirection(); onAnyFilterChange()">
+            <i class="fas fa-lg"
+              [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short'"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Limpiar -->
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="btn btn-primary" (click)="applyFilters()" [class.attention-pulse]="shouldAnimateApplyButton">
+          Aplicar
+        </button>
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <!-- Registrar -->
+        <button style="margin-right: 20px; margin-left: -10px;" (click)="navigateToAddOutput()" class="green-btn">
+          Registrar
+        </button>
+        <!-- pdf y excel -->
+        <button (click)="exportExcel()" class="btn btn-success me-2">
+          <i class="bi bi-file-earmark-excel"></i>
+        </button>
+        <button (click)="exportPdf()" class="btn btn-danger me-2"><i class="bi bi-file-earmark-pdf"></i></button>
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-responsive">
+      <table class="table green-table">
+        <thead>
+          <tr>
+            <th style="color: #a82c2c;" scope="col">Insumo</th>
+            <th style="color: #a82c2c;" scope="col">Cantidad</th>
+            <th style="color: #a82c2c;" scope="col">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let output of filteredOutputs | paginate: { 
+                                itemsPerPage: itemsPerPage,
+                                currentPage: currentPage
+                                }" class="supply-row">
+            <!-- Supply -->
+            <td style="padding: 19px;">
+              <i class="fas fa-angle-double-down me-1" style="color: red;"></i> {{ output.supplyName }}
+            </td>
+            <!-- Cantidad -->
+            <td style="padding: 19px;">
+              <span class="quantity-bold">{{ output.quantity }}</span>
+              @if (output.unit === 'KG') {
+              <span class="unit-gray">kg</span>
+              } @else if (output.unit === 'LITRO') {
+              <span class="unit-gray">L</span>
+              } @else {
+              <span class="unit-gray">unidades</span>
+              }
+            </td>
+            <!-- Fecha -->
+            <td style="padding: 19px;">
+              {{ output.outputDate | date:'dd/MM/yyyy' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Controles de paginación -->
+      <div class="text-center" style="margin-bottom: -9px;">
+        <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Anterior"
+          nextLabel="Siguiente"></pagination-controls>
+      </div>
+      <style>
+        .my-pagination ::ng-deep .ngx-pagination .current {
+          background: #2ca58d;
+          color: white;
+        }
+      </style>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <div class=" text-center  mt-5 mb-4">
+    <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+      routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+        aria-hidden="true"></i></a>
+    <span> | </span>
+    <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+      routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+        aria-hidden="true"></i></a>
+  </div>
+</div>
+}

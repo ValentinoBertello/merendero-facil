@@ -1,0 +1,131 @@
+<div class="step-container">
+    <h2 class="step-title">Detalles del Merendero</h2>
+    <form [formGroup]="formReactivo" (ngSubmit)="emitMerendero()" class="merendero-form">
+        <div class="row mt-1">
+            <!-- Nombre -->
+            <div class="col-md-12 mb-2">
+                <label for="nombre" class="form-label">
+                    Nombre del Merendero
+                </label>
+                <input id="nombre" type="text" class="form-control shadow-sm" formControlName="name"
+                    [ngClass]="{'is-invalid': formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched}">
+
+                <!-- Errores -->
+                @if(formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched) {
+                @if(formReactivo.get('name')?.hasError('required')) {
+                <div class="text-danger align-self-end">Nombre requerido</div>
+                }
+                @if(formReactivo.get('name')?.hasError('maxlength')) {
+                <div class="text-danger align-self-end">Demasiados caracteres
+                </div>
+                }
+                @if(formReactivo.get('name')?.hasError('minlength')) {
+                <div class="text-danger align-self-end">Muy pocos caracteres</div>
+                }
+                @if(formReactivo.get('name')?.hasError('pattern')) {
+                <div class="text-danger align-self-end">Nombre inválido</div>
+                }
+                }
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <!-- Hora de apertura -->
+            <div class="col-md-6 mb-2">
+                <label class="form-label" for="openingTime">
+                    Hora de apertura
+                </label>
+                <input id="openingTime" type="time" class="form-control shadow-sm" formControlName="openingTime"
+                    [ngClass]="{'is-invalid': ((formReactivo.get('openingTime')?.invalid || formReactivo.hasError('TimesIncorrects')) 
+                            && formReactivo.get('openingTime')?.touched) }">
+
+                <!-- Errores -->
+                @if(formReactivo.get('openingTime')?.invalid &&
+                formReactivo.get('openingTime')?.touched) {
+                @if(formReactivo.get('openingTime')?.hasError('required')) {
+                <div class="text-danger align-self-end">Hora de Apertura requerida
+                </div>
+                }
+                }
+            </div>
+
+            <!-- Hora de cierre -->
+            <div class="col-md-6 mb-2">
+                <label class="form-label" for="closingTime">
+                    Hora de cierre
+                </label>
+                <input id="closingTime" type="time" class="form-control shadow-sm" formControlName="closingTime"
+                    [ngClass]="{'is-invalid': ((formReactivo.get('closingTime')?.invalid || (formReactivo.hasError('TimesIncorrects') )) 
+                            && formReactivo.get('closingTime')?.touched) }">
+
+                <!-- Errores -->
+                @if(formReactivo.get('closingTime')?.invalid &&
+                formReactivo.get('closingTime')?.touched) {
+                @if(formReactivo.get('closingTime')?.hasError('required')) {
+                <div class="text-danger align-self-end">Hora de cierre requerida
+                </div>
+                }
+                }
+            </div>
+
+            <!-- Errores a nivel de formulario -->
+            @if( (!formReactivo.get('openingTime')?.hasError('required') &&
+            !formReactivo.get('closingTime')?.hasError('required')) &&
+            formReactivo.hasError('TimesIncorrects')) {
+            <div class="col-12 ">
+                <div class="text-danger align-self-end">
+                    La hora de cierre debe ser posterior a la hora de apertura
+                </div>
+            </div>
+            }
+        </div>
+
+        <!--  capacidad -->
+        <div class="row mt-1">
+            <div class="col-md-12 mb-2">
+                <label class="form-label" for="capacity">
+                    Capacidad aproximada de personas
+                </label>
+                <div class="d-flex flex-wrap gap-2">
+                    @for (cap of capacities; track $index) {
+                    <button type="button" class="capacity-chip"
+                        [class.selected]="formReactivo.get('capacity')?.value == (cap === '+60' ? 60 : cap)"
+                        (click)="selectCapacity(cap)">
+                        {{ cap }}
+                    </button>
+                    }
+                </div>
+
+                <!-- errores -->
+                @if(formReactivo.get('capacity')?.invalid && formReactivo.get('capacity')?.touched) {
+                <div class="text-danger mt-2">⚠️ Selecciona una capacidad</div>
+                }
+            </div>
+        </div>
+
+        <!-- daysOpen -->
+        <div class="row mt-1">
+            <div class="col-md-12 mb-2">
+                <label class="form-label">¿Qué días abrirá?</label>
+                <div class="d-flex flex-wrap gap-2">
+                    @for (dia of diasSemana; track $index) {
+                    <button type="button" class="day-chip" [class.selected]="isDaySelected(dia)"
+                        (click)="toggleDay(dia)">
+                        {{ dia }}
+                    </button>
+                    }
+                </div>
+
+                <!-- Errores -->
+                @if(formReactivo.get('daysOpen')?.invalid && formReactivo.get('daysOpen')?.touched) {
+                <div class="text-danger mt-2">⚠️ Selecciona al menos un día</div>
+                }
+            </div>
+        </div>
+
+        <!-- Siguiente paso -->
+        <button type="submit" class="btn btn-block next-btn w-100 mb-3 mt-1" [disabled]="isFormInvalid">
+            Siguiente Paso ➔
+        </button>
+    </form>
+</div>

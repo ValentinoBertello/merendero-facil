@@ -1,0 +1,183 @@
+/* Contenedor del Panel de Filtros */
+.filters-fullpanel {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Header del Panel de Filtros */
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 1rem;
+}
+
+/* Titulo */
+.filters-title {
+  color: #b35817d0;
+  font-size: 1.46rem;
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.3rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #fd9100 30%, rgba(253, 145, 0, 0.1) 100%);
+    opacity: 0.7;
+  }
+}
+
+/* boton para cerrar el panel de filtros */
+.close-filters {
+  background: none;
+  border: none;
+  color: #6c757d;
+  padding: 0.5rem;
+}
+
+
+/* contenedor inputs y labels */
+.filter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  flex-direction: row-reverse;
+}
+
+.checkbox-container {
+  position: relative;
+  margin-right: 1rem;
+}
+
+/* checkbox naranja */
+.custom-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: relative;
+  display: block;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid rgba(111, 31, 0, 0.2);
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.custom-checkbox:checked~.checkmark {
+  background-color: #fd9100;
+  border-color: #fd9100;
+}
+
+.custom-checkbox:checked~.checkmark::after {
+  display: block;
+}
+
+/* Label del panel de filtros (nombre e icono) */
+.filter-label {
+  display: flex;
+  align-items: center;
+  color: #495057;
+  font-weight: 500;
+
+  .icon {
+    color: #6c757d;
+    margin-right: 0.75rem;
+    font-size: 0.9em;
+  }
+}
+
+/* botones del panel */
+.filter-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  .icon {
+    font-size: 1.1em;
+  }
+}
+
+.btn-apply {
+  background-color: #A0522D;
+  color: #FFF8DC;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #cc7400;
+    transform: translateY(-1px);
+    color: #FFF8DC;
+  }
+}
+
+.btn-clear {
+  background: transparent;
+  color: #6c757d;
+  border: 2px solid #dee2e6;
+
+  &:hover {
+    border-color: #adb5bd;
+    color: #495057;
+  }
+}
+
+.btn-map {
+  width: 100%;
+  background: #e49220;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+
+  &:hover {
+    background: #ffb343;
+    transform: translateY(-2px);
+  }
+}

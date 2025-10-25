@@ -1,0 +1,142 @@
+.first-step-container {
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+.map-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+/* Contenedor del boton de siguiente y del circulito */
+.navigation-buttons {
+  margin-top: auto;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Boton para "ir a mi ubicación" */
+.gps-button {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff3e0;
+  border: 1px solid #ffd8a8;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: -45px;
+}
+
+.gps-button svg {
+  color: #ff9900;
+}
+
+/* Boton para avanzar de paso */
+.next-btn {
+  margin-top: 10px;
+  background-color: #A0522D;
+  color: #FFF8DC;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid #8B4513;
+  margin: auto;
+}
+
+/* titulo */
+.step-title {
+  font-size: 2.2rem;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-bottom: 3px solid #ffd000
+}
+
+/* Inputs estilizados */
+.form-control {
+  border: 2px solid #ffe5cc;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #ffb343;
+  box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+  background-color: #fffaf4;
+}
+
+/* Container del address input */
+.address-container {
+  background: white;
+  padding: 20px;
+  margin-top: -25px;
+}
+
+/* Agrandamos el input de address */
+#address-input {
+  width: 50%;
+  margin: 0 auto;
+  padding-top: 12px;
+  padding-right: 15px;
+  padding-bottom: 12px;
+  padding-left: 15px;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 0 0 5px rgba(255, 179, 67, 0.1);
+}
+
+#address-input::placeholder {
+  color: #b2bec3;
+  font-style: italic;
+}
+
+.step-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 900px) {
+  .address-container {
+    padding: 5px;
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+  #address-input {
+    font-size: 14px;
+    margin-top: 35px !important;
+    width: 100%;
+  }
+
+  .step-title {
+    font-size: 30px;
+    margin-bottom: 5px !important;
+    margin-top: -16px;
+    border-bottom-width: 2px;
+  }
+}
+
+/* Responsive para móviles muy pequeños */
+@media (max-width: 500px) {
+ .step-title {
+    font-size: 22px;
+  }
+}

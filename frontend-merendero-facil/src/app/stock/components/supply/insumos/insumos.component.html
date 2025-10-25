@@ -1,0 +1,90 @@
+<div class="container mt-3">
+
+  <!-- Spinner de carga -->
+  @if (isLoading) {
+  <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+    <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+  }
+
+  <!-- Contenido -->
+  @if (!isLoading) {
+  <div class="current-supplies mb-4">
+    <h4 style="text-align: center; margin-bottom: 20px; margin-top: 10px;" class="green-title">Insumos activos del
+      merendero</h4>
+
+    <!-- cartel de que no hay insumos -->
+    @if (supplies.length === 0) {
+    <div class="alert alert-warning mb-5">No hay insumos asociados</div>
+    }
+
+    <!-- Filtros -->
+    <div style="margin-top: -11px;" class="row">
+      <div class="col-md-3">
+        <label class="form-label">Buscar insumo</label>
+        <input type="text" class="form-control" [(ngModel)]="searchSupplies" placeholder="Ej: Arroz"
+          (input)="applyFilters()">
+      </div>
+      <!-- Boton agregar insumo -->
+      <div class="col-md-3" style="margin-top: 33.3px;">
+        <button (click)="navigateToAddSupply()" class="green-btn">
+          Agregar nuevo insumo
+        </button>
+      </div>
+    </div>
+    <!-- Tabla -->
+    @if (supplies.length > 0) {
+    <div class="table-responsive">
+      <table class="table green-table">
+        <thead>
+          <tr>
+            <th style="color: #2ca58d;" scope="col">Insumo</th>
+            <th style="color: #2ca58d;" scope="col">Unidad de medida</th>
+            <th style="color: #2ca58d;" scope="col">Categoría</th>
+            <th style="color: #2ca58d;" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let supply of filteredSupplies | paginate: { 
+                                itemsPerPage: itemsPerPage,
+                                currentPage: currentPage
+                                }" class="supply-row">
+            <td>{{ supply.name }}</td>
+            <td class="unit">{{ supply.unit }}</td>
+            <td>{{ getCategoryName(supply.categoryId) }}</td>
+            <td> <button class="btn btn-danger mt-1 mb-1" (click)="deleteSupply(supply)">Eliminar</button> </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Controles de paginación -->
+      <div class="text-center" style="margin-bottom: -16px;">
+        <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Anterior"
+          nextLabel="Siguiente"></pagination-controls>
+      </div>
+
+      <style>
+        .my-pagination ::ng-deep .ngx-pagination .current {
+          background: #2ca58d;
+          color: white;
+        }
+      </style>
+    </div>
+    }
+  </div>
+  }
+
+
+  <!-- FOOTER -->
+  <div class="mt-5 mb-4 text-center" style="padding-top: 14px;">
+    <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+      routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+        aria-hidden="true"></i></a>
+    <span> | </span>
+    <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+      routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+        aria-hidden="true"></i></a>
+  </div>
+</div>

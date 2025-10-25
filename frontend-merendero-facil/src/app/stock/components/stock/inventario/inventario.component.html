@@ -1,0 +1,189 @@
+<!-- Spinner de carga -->
+@if (isLoading) {
+<div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+    <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+}
+
+@if (!isLoading) {
+<div class="container mt-3">
+    @if (suppliesStock.length === 0) {
+    <div class="alert alert-warning">No hay insumos registrados</div>
+    <!-- Botón agregar insumo activo -->
+    <div style="margin-top: -11px;" class="row">
+        <div class="col-md-12 d-flex align-items-end mb-2">
+            <button (click)="navigateToAddSupply()" class="btn btn-success">
+                Agregar nuevo insumo
+            </button>
+        </div>
+    </div>
+    }
+    @if (suppliesStock.length > 0;) {
+    <div class="current-supplies">
+        <h4 style="margin-top: 8px; margin-bottom: 30px;" class="mb-4 green-title">Inventario</h4>
+
+        <!-- FILTROS -->
+        <div style="margin-top: -5px;" class="row">
+            <!-- SEARCH -->
+            <div class="col-md-3">
+                <label class="form-label">Buscar insumo</label>
+                <input type="text" class="form-control" placeholder="Ej: Arroz" [(ngModel)]="searchSupplies"
+                (ngModelChange)="onAnyFilterChange()">
+            </div>
+
+            <!-- SELECT -->
+            <div class="col-md-3">
+                <label class="form-label">Filtar por</label>
+                <div class="d-flex align-items-center">
+                    <select [(ngModel)]="selectedFilter" (ngModelChange)="onAnyFilterChange()"
+                    class="form-select">
+                        <option value="">...</option>
+                        <option value="stock">Stock Bajo</option>
+                        <option value="expiration">Fecha vto cercana</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ORDENAMIENTOS -->
+            <div class="col-md-3">
+                <label class="form-label">Ordenar por...</label>
+                <div class="d-flex align-items-center">
+
+                    <select class="form-select" [(ngModel)]="sortField" (ngModelChange)="onAnyFilterChange()">
+                        <option value="stock">Stock</option>
+                        <option value="expiration">Fecha Vto</option>
+                        <option value="name">Nombre</option>
+                    </select>
+                    <!-- ASC o DESC -->
+                    <button class="green-btn" (click)="toggleSortDirection();" (click)="onAnyFilterChange()" [disabled]="!sortField">
+                        <i class="fas fa-lg"
+                            [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LIMPIAR -->
+            <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-primary" (click)="applyFilters()" [class.attention-pulse]="shouldAnimateApplyButton">
+                    Aplicar
+                </button>
+            </div>
+
+            <!-- PDF y EXCEL -->
+            <div class="col-md-1 d-flex align-items-end">
+                <button (click)="exportExcel()" class="btn btn-success me-2">
+                    <i class="bi bi-file-earmark-excel"></i>
+                </button>
+                <button (click)="exportPdf()" class="btn btn-danger me-2"><i
+                        class="bi bi-file-earmark-pdf"></i></button>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <div class="table-responsive">
+            <table class="table green-table">
+                <thead>
+                    <tr>
+                        <th style="color: #2ca58d;" scope="col">Insumo</th>
+                        <th style="color: #2ca58d;" scope="col">Stock actual</th>
+                        <th style="color: #2ca58d;" scope="col">Próximo Vencimiento</th>
+                        <th style="color: #2ca58d;" scope="col">Lotes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let supply of filteredItemStock | paginate: { 
+                                itemsPerPage: itemsPerPage,
+                                currentPage: currentPage
+                                }" class="supply-row">
+
+                        <!-- NOMBRE INSUMO -->
+                        <td style="padding: 19px;">{{ supply.supplyName }}</td>
+
+                        <!-- STOCK -->
+                        <td style="padding: 19px;">
+                            <span class="quantity-bold">{{ supply.totalStock }}</span>
+                            @if (supply.unit === 'KG') {
+
+                            <span class="unit-gray">kg</span>
+
+                            } @else if (supply.unit === 'LITRO') {
+
+                            <span class="unit-gray">L</span>
+
+                            } @else {
+
+                            <span class="unit-gray">unidades</span>
+
+                            }
+                            <!-- CARTELES DE STOCK BAJO O NULO -->
+                            @if (supply.totalStock < supply.minQuantity && supply.totalStock !=0) { <span
+                                class="stock-alert ms-2"><i class="fas fa-exclamation-circle me-1"></i>BAJO</span>
+                                }
+                                @if (supply.totalStock == 0) {
+                                <span class="stock-alert ms-2"><i class="fas fa-exclamation-circle me-1"></i>SIN
+                                    STOCK</span>
+                                }
+                        </td>
+
+                        <!-- FECHA DE VTO MAS CERCANA -->
+                        <td style="padding: 19px;">
+                            @if (supply.totalStock > 0) {
+                            {{ supply.nextExpiration | date:'dd/MM/yyyy' }}
+                            <span *ngIf="isExpiringSoon(supply.nextExpiration)" class="pronto">Pronto</span>
+                            } @else {
+                            <span class="no-lotes">-</span>
+                            }
+                        </td>
+
+                        <!-- BOTON VER LOTES -->
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary d-flex align-items-center"
+                                (click)="openLotesModal(supply)"
+                                [disabled]="isLoadingLotes">
+                                <!-- Mostrar solo si no está cargando -->
+                                @if (!(isLoadingLotes)) {
+                                <ng-container>
+                                    <i class="fas fa-boxes me-1"></i> Ver lotes
+                                </ng-container>
+                                }
+                                <!-- Spinner mientras se cargan los lotes de esta fila -->
+                                @if (isLoadingLotes) {
+                                <div class="spinner-border spinner-border-sm text-secondary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Controles de paginación -->
+            <div class="text-center" style="margin-bottom: -16px;">
+                <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+            <style>
+                .my-pagination ::ng-deep .ngx-pagination .current {
+                    background: #2ca58d;
+                    color: white;
+                }
+            </style>
+        </div>
+    </div>
+    }
+
+    <!-- FOOTER -->
+    <div class="mt-5 mb-4 text-center" style="padding-top: 14px;">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+</div>
+}

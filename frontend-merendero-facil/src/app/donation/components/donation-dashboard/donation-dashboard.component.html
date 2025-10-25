@@ -1,0 +1,205 @@
+<div class="custom-container mt-2">
+    <!-- Primer fila -->
+    <div class="row" style="margin-bottom: 11px;">
+        <!-- Título -->
+        <div class="col-lg-4 col-md-12">
+            <h2 class="mb-2 step-title">Reportes de Donaciones</h2>
+        </div>
+        <!-- Fecha desde -->
+        <div class="col-lg-2 col-md-4 fecha-desde-group">
+            <div class="date-group">
+                <label class="date-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()">
+            </div>
+        </div>
+        <!-- Fecha hasta -->
+        <div class="col-lg-2 col-md-4 fecha-hasta-group">
+            <div class="date-group">
+                <label class="date-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()">
+            </div>
+        </div>
+        <!-- Botón Aplicar -->
+        <div class="col-lg-2 col-md-4 aplicar-group">
+            <button class="btn btn-primary btn-aplicar" (click)="applyFilters()"
+            [class.attention-pulse]="shouldAnimateApplyButton">Aplicar</button>
+        </div>
+    </div>
+    
+    @if (!this.isLoading && this.googleChartsLoaded) {
+    @if (donationDateSummaries.length > 0) {
+    <!-- Segunda fila -->
+    <div class="row">
+        <!-- Primer columna -->
+        <div class="col-lg-6 mt-1 chart-card">
+            <!-- Título datos -->
+            <div class="row" style="margin-top: 12.5px;">
+                <p class="mini-title mb-1">Datos</p>
+            </div>
+            <!-- LOS DATOS específicos-->
+            <div class="row">
+                <!-- Primer mitad -->
+                <div class="col-md-6">
+                    <p class="d-flex align-items-center">
+                        <!-- RECAUDACION TOTAL -->
+
+                        <!-- label -->
+                        <span class="label-datos">
+                            Recaudación:
+                        </span>
+                        <!-- número -->
+                        <span style="margin-right: 4.5px;" class="resultado-datos">
+                            {{ currentPeriod?.totalAmountDonated | currencyArs:'$':false }}
+                        </span>
+
+                        <!-- PORCENTAJE de diferencia con el periodo anterior -->
+                        <span class="result-percentage" [ngClass]="isAmountChangePositive() ? 'profit' : 'loss'">
+                            <!-- flechita -->
+                            <i class="bi" style="margin-right: -4px;"
+                                [ngClass]="isAmountChangePositive() ? 'bi-arrow-up' : 'bi-arrow-down'">
+                            </i>
+                            <!-- número (porcentaje) % -->
+                            {{ comparisonStats?.amountDonatedChange?.percentage | currencyArs:'':false }}%
+                        </span>
+
+                        <!-- Cantidad TOTAL de diferencia con el periodo anterior -->
+                        <span class="result-value" [ngClass]="isAmountChangePositive() ? 'profit' : 'loss'">
+                            <!-- flechita -->
+                            <i class="bi" style="margin-right: -4px;"
+                                [ngClass]="isAmountChangePositive() ? 'bi-arrow-up' : 'bi-arrow-down'">
+                            </i>
+                            <!-- número (cantidad total) -->
+                            {{ comparisonStats?.amountDonatedChange?.value | currencyArs:'$':false }}
+                        </span>
+                    </p>
+
+                    <!-- ganancia diaria -->
+                    <div class="margin-bottom-mobile">
+                        <span class="label-datos">Se ganaron
+
+                            <span class="resultado-datos">
+                                {{ currentPeriod?.averagePerDay| currencyArs:'$':false}}
+                            </span>
+
+                            por día en promedio
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- Segunda mitad -->
+                <div class="col-md-6 margin-top">
+                    <p class="d-flex align-items-center">
+                        <!-- DONACIONES RECIBIDAS -->
+                        <!-- label -->
+                        <span class="label-datos">
+                            Donaciones Recibidas:
+                        </span>
+                        <!-- número -->
+                        <span class="resultado-datos">
+                            {{ currentPeriod?.donationCount| currencyArs:'$':false }}
+                        </span>
+
+                        <!-- PORCENTAJE de diferencia con el periodo anterior -->
+                        <span class="result-percentage" [ngClass]="isCountChangePositive() ? 'profit' : 'loss'"
+                            style="margin-left: 5px;">
+                            <!-- flechita -->
+                            <i class="bi" [ngClass]="isCountChangePositive() ? 'bi-arrow-up' : 'bi-arrow-down'">
+                            </i>
+                            <!-- número (porcentaje %) -->
+                            {{ comparisonStats?.donationCountChange?.percentage | currencyArs:'':false }}%
+                        </span>
+
+                        <!-- Cantidad TOTAL de diferencia con el periodo anterior -->
+                        <span class="result-value" [ngClass]="isCountChangePositive() ? 'profit' : 'loss'">
+                            <!-- flechita -->
+                            <i class="bi" [ngClass]="isCountChangePositive() ? 'bi-arrow-up' : 'bi-arrow-down'">
+                            </i>
+                            <!-- número -->
+                            {{ comparisonStats?.donationCountChange?.value }}
+                        </span>
+                    </p>
+
+                    <!-- PROMEDIO POR DONACIÓN -->
+                    <span class="label-datos"> Promedio por donación:
+                        <span class="resultado-datos">
+                            {{currentPeriod?.averagePerDay | currencyArs:'$':false }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Gráfico periodo actual vs anterior -->
+            <div class="row">
+                <div style="padding-top: 15px;">
+                    <app-period-comparison-chart [googleChartsLoaded]="googleChartsLoaded"
+                        [currentPeriod]="currentPeriod" [previousPeriod]="previousPeriod">
+                    </app-period-comparison-chart>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="mt-1 col-lg-3 chart-card padding-bottom-mobile">
+            <!-- Gráfico de tipos de donantes -->
+            <app-type-donors-chart [googleChartsLoaded]="googleChartsLoaded" [donorAnalysis]="donorAnalysis">
+            </app-type-donors-chart>
+
+            <!-- carteles de tipos de donantes -->
+            <div class="text-center mt-2 mb-md-4">
+                <span class="bg-green">Recurrentes: {{ donorAnalysis?.donorTypeAnalysis?.recurrentDonorsCount }}</span>
+                <span class="bg-azul  ms-2">Nuevos: {{ donorAnalysis?.donorTypeAnalysis?.newDonorsCount }}</span>
+            </div>
+
+        </div>
+
+        <!-- Tercer columna -->
+        <div class="mt-1 col-lg-3 chart-card">
+            <!-- título -->
+            <h5 class="mini-title" style="margin-top: 12.5px;">Top Donantes</h5>
+            <!-- Tabla de top donantes -->
+            <ul class="ul-table">
+                <!-- Filas -->
+                @for (don of donorAnalysis?.topDonors; track $index) {
+                <li style="display: table-row">
+                    <div class="ul-cell email"> {{ don.donorEmail }} </div>
+                    <div class="ul-cell amount"> {{ don.amountDonated | currencyArs:'$':false }} </div>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- GRÁFICO PRINCIPAL (Donaciones en el tiempo) -->
+    <!-- Versión escritorio-->
+    @if (!isSmallScreen) {
+
+    <div class="mt-2">
+        <app-donations-in-time-chart [donationDateSummaries]="donationDateSummaries"
+            [googleChartsLoaded]="googleChartsLoaded" [groupBy]="groupBy">
+        </app-donations-in-time-chart>
+    </div>
+
+    } @else {
+
+    <!-- Versión móvil -->
+    <div class="chart-card pt-3" style="margin-top: 16px;">
+        <app-donations-in-time-mobile-chart [donationDateSummaries]="donationDateSummaries"
+            [googleChartsLoaded]="googleChartsLoaded" [groupBy]="groupBy">
+        </app-donations-in-time-mobile-chart>
+    </div>
+
+    }
+
+    } @else {
+    <p class="text-center mt-5" style="font-weight: 500;">No hay donaciones en esas fechas</p>
+    }
+    } @else {
+    <div class="mt-4 d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    }
+</div>

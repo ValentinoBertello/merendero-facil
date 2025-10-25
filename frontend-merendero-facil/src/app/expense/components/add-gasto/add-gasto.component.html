@@ -1,0 +1,137 @@
+<div class="container mt-4">
+    <h5 style="margin-top: -5px; display: inline-block; padding-bottom: 10px;" class="text-center green-title">
+        Agregar Gasto</h5>
+
+    <form [formGroup]="formReactivo" (ngSubmit)="onSubmitForm()" class="">
+
+        <!-- Tipo de gasto -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Tipo de gasto</label>
+                <select class="form-select" formControlName="typeExpenseId"
+                    [ngClass]="{'is-invalid': formReactivo.get('typeExpenseId')?.invalid && formReactivo.get('typeExpenseId')?.touched}">
+                    <option value="">Selecciona un tipo</option>
+                    <option *ngFor="let t of expenseTypes" [value]="t.id">
+                        {{ t.description }}
+                    </option>
+                </select>
+
+                <!-- Errores -->
+                @if(formReactivo.get('typeExpenseId')?.invalid && formReactivo.get('typeExpenseId')?.touched) {
+                @if(formReactivo.get('typeExpenseId')?.hasError('required')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                }
+                }
+
+            </div>
+            <!-- Costo -->
+            <div class="col-md-6">
+                <label class="form-label">Costo (en ARS)</label>
+                <input class="form-control" type="number" formControlName="cost"
+                    [ngClass]="{'is-invalid': formReactivo.get('cost')?.invalid && formReactivo.get('cost')?.touched}">
+
+                <!-- Errores -->
+                @if(formReactivo.get('cost')?.invalid && formReactivo.get('cost')?.touched) {
+                @if(formReactivo.get('cost')?.hasError('required')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                }
+                @if(formReactivo.get('cost')?.hasError('min')) {
+                <div class="text-danger align-self-end" style="width: 500px;">El mínimo es 1</div>
+                }
+                }
+            </div>
+
+        </div>
+
+        <!-- container en caso de que el gasto sea un insumo -->
+        @if (showSupplyFields) {
+        <ng-container>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <!-- Insumo -->
+                    <label class="form-label">
+                        ¿De qué insumo se trata?
+                    </label>
+                    <select class="form-select" formControlName="supplyId"
+                        [ngClass]="{'is-invalid': formReactivo.get('supplyId')?.invalid && formReactivo.get('supplyId')?.touched}">
+                        @for (s of supplies; track $index) {
+                        <option [value]="s.id">
+                            {{ s.name }}
+                        </option>
+                        }
+                    </select>
+
+                    <!-- Errores -->
+                    @if(formReactivo.get('supplyId')?.invalid && formReactivo.get('supplyId')?.touched) {
+                    @if(formReactivo.get('supplyId')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                    }
+                    }
+
+                </div>
+                <div class="col-md-6">
+                    <!-- Cantidad -->
+                    <label class="form-label">
+                        Cantidad
+                    </label>
+                    <input class="form-control" type="number" formControlName="quantity"
+                        [ngClass]="{'is-invalid': formReactivo.get('quantity')?.invalid && formReactivo.get('quantity')?.touched}">
+
+                    <!-- Errores -->
+                    @if(formReactivo.get('quantity')?.invalid && formReactivo.get('quantity')?.touched) {
+                    @if(formReactivo.get('quantity')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                    }
+                    @if(formReactivo.get('quantity')?.hasError('min')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">El mínimo es 1</div>
+                    }
+                    }
+
+                </div>
+            </div>
+
+            <!-- Expiration Date -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <label class="form-label">
+                        ¿Cuándo vence esta tanda?
+                    </label>
+                    <input class="form-control" type="date" formControlName="expirationDate"
+                        [ngClass]="{'is-invalid': formReactivo.get('expirationDate')?.invalid && formReactivo.get('expirationDate')?.touched}">
+
+                    <!-- Errores -->
+                    @if(formReactivo.get('expirationDate')?.invalid && formReactivo.get('expirationDate')?.touched) {
+                    @if(formReactivo.get('expirationDate')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                    }
+                    @if(formReactivo.get('expirationDate')?.hasError('pastDate')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">La fecha debe ser posterior a hoy
+                    </div>
+                    }
+                    }
+
+                </div>
+            </div>
+        </ng-container>
+        }
+
+        <!-- Registrar btn -->
+        <button type="submit" class="green-btn" [disabled]="formReactivo.invalid">
+            Registrar Gasto
+        </button>
+
+    </form>
+
+
+
+    <!-- FOOTER -->
+    <div class="mt-4 text-center" style="padding-top: 14px;">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+</div>

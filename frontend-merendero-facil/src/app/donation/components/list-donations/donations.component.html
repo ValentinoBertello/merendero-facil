@@ -1,0 +1,130 @@
+<div class="container mt-3">
+    <h2 class="mb-4 step-title">Donaciones recibidas</h2>
+    <!-- Contendor de tabla y filtros -->
+    <div class="contenedor-table p-4 position-relative">
+        <!-- Filtro de fechas -->
+        <div style="margin-top: -11px;" class="row mb-4">
+            <!-- desde -->
+            <div class="col-lg-2">
+                <label class="form-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+            <!-- hasta -->
+            <div class="col-lg-2">
+                <label class="form-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+            <!-- búsqueda por email -->
+            <div class="col-lg-3">
+                <label class="form-label">Buscar por email</label>
+                <input type="text" class="form-control" [(ngModel)]="searchEmail" placeholder="ejemplo@gmail.com"
+                    (ngModelChange)="onAnyFilterChange()">
+            </div>
+
+            <!-- Ordenar por -->
+            <div class="col-lg-2">
+                <label class="form-label">Ordenar por...</label>
+                <div class="d-flex align-items-center">
+                    <!-- Atributos a ordenar -->
+                    <select class="form-select" [(ngModel)]="sortField" (ngModelChange)="onAnyFilterChange()">
+                        <option value="donationDate">Fecha</option>
+                        <option value="userEmail">Email</option>
+                        <option value="netAmount">Donativo</option>
+                    </select>
+                    <!-- Asc o Desc -->
+                    <button class="orange-btn" (click)="toggleSortDirection(); onAnyFilterChange()" [disabled]="!sortField">
+                        <i class="fas fa-lg"
+                            [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short'"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Limpiar -->
+            <div class="col-lg-1 d-flex align-items-end">
+                <button class="orange-btn" (click)="applyFilters()" [class.attention-pulse]="shouldAnimateApplyButton">
+                    Aplicar
+                </button>
+            </div>
+            <!-- Botones de exportación  (click)="exportPdf()"-->
+            <div class="col-lg-1 d-flex align-items-end pdf-and-excel">
+                <button class="btn btn-success me-2" (click)="exportExcel()">
+                    <i class="bi bi-file-earmark-excel"></i>
+                </button>
+                <button class="btn btn-danger me-2" (click)="exportPdf()"><i
+                        class="bi bi-file-earmark-pdf"></i></button>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-responsive">
+            <table class="table donation-table">
+                <thead>
+                    <tr>
+                        <th style="color: #e49220;" scope="col">Fecha</th>
+                        <th style="color: #e49220;" scope="col">Monto bruto</th>
+                        <th style="color: #e49220;" scope="col">Monto neto</th>
+                        <th style="color: #e49220; padding-left: 140px;" scope="col">Usuario donante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (donation of filteredDonations; track $index) {
+                    <tr class="donation-row">
+                        <td>{{ donation.donationDate | date:'dd/MM/yyyy' }}</td>
+                        <td class="amount">{{ donation.grossAmount | currencyArs:'$':false }}</td>
+                        <td class="amount">{{ donation.netAmount | currencyArs:'$':false }}</td>
+                        <td style="padding-left: 140px;">{{ donation.userEmail }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- PAGINACIÓN -->
+            @if (totalPages > 1) {
+            <div class="pagination">
+                @if (hasPrev) {
+                <!-- Botón anterior -->
+                <button class="page-link" [disabled]="!hasPrev" (click)="goPrev()">
+                    &laquo;
+                </button>
+                }
+
+                <!-- Número de páginas -->
+                @for (page of pageNumbers; track page) {
+                @if (page == -1) {
+                <button class=" page-dots">...</button>
+                } @else {
+                <button class="page-link {{ page === currentPage ? 'active' : '' }}" (click)="applyFilters(page)">
+                    {{ page + 1 }}
+                </button>
+                }
+                }
+
+                @if (hasNext) {
+                <!-- Botón siguiente -->
+                <button class="page-link" [disabled]="!hasNext" (click)="goNext()">
+                    &raquo;
+                </button>
+                }
+
+            </div>
+            }
+
+            <!-- cartel de que no hay donaciones -->
+            @if (filteredDonations.length === 0) {
+            <div class="text-center py-4">
+                <p class="no-results">No se encontraron donaciones</p>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="mt-5 pb-5 text-center" style="padding-top: 14px;">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+</div>

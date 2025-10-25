@@ -1,0 +1,65 @@
+<div class="container mt-3">
+    <div class="justify-content-center p-4 rounded-4">
+
+        <h2 class="mb-5 text-center text-orange">Compruebe su correo electrónico para obtener un
+            código</h2>
+
+        <form [formGroup]="codeForm" (ngSubmit)="validateCode()" class="container-form">
+            <p class="text-orange">
+                Introduzca el código de verificación enviado a su dirección de correo electrónico
+                <strong>{{email}}</strong>
+            </p>
+
+            <div class="mb-4">
+                <!-- CODIGO -->
+                <label for="code" class="form-label more-size text-orange">Código de Verificación</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-orange border-brown">
+                        <i class="fas fa-shield-alt text-orange"></i>
+                    </span>
+                    <input id="code" type="text" formControlName="code" class="form-control border-brown"
+                        placeholder="Ingresa el código de 6 dígitos"
+                        [ngClass]="{'is-invalid': codeForm.get('code')?.invalid && codeForm.get('code')?.touched}">
+                </div>
+
+                <!-- ERRORES -->
+                @if (codeForm.get("code")?.invalid && codeForm.get('code')?.touched) {
+                <div class="mt-2">
+                    @if (codeForm.get('code')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Código requerido</div>
+                    }
+                    @if (codeForm.get('code')?.hasError('pattern')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Deben ser 6 digitos numéricos</div>
+                    }
+                </div>
+                }
+            </div>
+
+            <!-- VALIDAR -->
+            <button [disabled]="codeForm.invalid" type="submit" class="btn btn-block next-btn w-100 mb-3">
+                Validar Código
+            </button>
+
+            <!-- OPCION DE REENVIO -->
+            <p class="text-center mt-3 pb-3 text-orange">
+                ¿No recibiste el código?
+                <button class="btn btn-link text-darkbrown fw-bold p-0" style="color: #af6f16;" (click)="resendCode()"
+                    [disabled]="isSendingCode || countdown > 0">
+                    @if (isSendingCode) {
+                    <span class="align-middle">
+                        <span class="spinner-border custom-spinner spinner-border-sm me-2" role="status"></span>
+                        Enviando...
+                    </span>
+                    }
+                    @else if (countdown > 0) {
+                    Reenviar código ({{countdown}}s)
+                    }
+                    @else {
+                    Reenviar código
+                    }
+                </button>
+            </p>
+
+        </form>
+    </div>
+</div>

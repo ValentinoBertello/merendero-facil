@@ -1,0 +1,225 @@
+/* Table */
+.donation-table {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(255, 179, 67, 0.1);
+}
+
+.donation-table th {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 2px solid #ffe5cc;
+  padding: 1rem;
+}
+
+.donation-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #ffe5cc;
+  color: #000000;
+}
+
+/* Montos monetarios */
+.amount {
+  font-weight: 600;
+  color: #e49220;
+  text-align: right;
+  padding-right: 1.5rem;
+}
+
+/* Alinear también los encabezados de montos */
+.donation-table thead th:nth-child(2),
+.donation-table thead th:nth-child(3) {
+  text-align: right;
+  padding-right: 1.5rem;
+}
+
+/* Mejor separación entre columnas */
+.donation-table th:first-child,
+.donation-table td:first-child {
+  padding-left: 1.5rem;
+}
+
+.donation-table th:last-child,
+.donation-table td:last-child {
+  padding-right: 1.5rem;
+}
+
+/* Filas */
+.donation-row:hover {
+  transform: translateX(4px);
+  transition: all 0.3s ease;
+}
+
+/* Titulo */
+.step-title {
+  font-size: 2.2rem;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  width: fit-content;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid #ffd000
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0px;
+}
+
+.page-link {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: black;
+  margin: 0 4px;
+  border-radius: 5px;
+  box-shadow: none;
+  border: none;
+}
+
+.page-link.active {
+  border: none;
+  background-color: #d39726;
+  color: white;
+}
+
+.page-link.disabled {
+  color: #868686c4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.page-link:hover:not(.active) {
+  background-color: rgb(255, 222, 180);
+}
+
+.page-dots {
+  background-color: #ffffff;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+  margin: 0 4px;
+  border-radius: 5px;
+  box-shadow: none;
+  border: none;
+}
+
+/* Contenedor de tabla y filtros */
+.contenedor-table::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #ffc46a 0%, #ffd8a8 100%);
+  border-radius: 18px;
+  z-index: -1;
+  box-shadow: 0 8px 30px -5px rgb(255, 226, 182),
+    0 4px 15px rgba(255, 153, 0, 0.15);
+}
+
+/* Inputs */
+.form-control {
+  border: 2px solid #ffe5cc;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #ffb343;
+  box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+  background-color: #fffaf4;
+}
+
+.form-select {
+  border: 2px solid #ffe5cc;
+  border-radius: 10px;
+  background-color: #fffaf4;
+  color: #5c3d0e;
+}
+
+.form-select:focus {
+  border-color: #ffb343;
+  box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+}
+
+/* Boton de ordenar y limpiar */
+.orange-btn {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-right: 1rem;
+  padding-left: 0.78rem;
+  border: 2px solid #ffe5cc;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #e49220;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animación sutil de atención para el botón Aplicar - 3 segundos */
+.orange-btn.attention-pulse {
+  animation: attentionPulse 2s ease-in-out infinite;
+  border-color: #e49220;
+  box-shadow: 0 0 0 2px rgba(228, 146, 32, 0.3);
+}
+
+@keyframes attentionPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(228, 146, 32, 0.7);
+  }
+
+  25% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(228, 146, 32, 0.3);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px rgba(228, 146, 32, 0);
+  }
+
+  75% {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 8px rgba(228, 146, 32, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(228, 146, 32, 0);
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 1000px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .donation-table {
+    min-width: 600px;
+  }
+
+  .pdf-and-excel {
+    margin-top: 20px;
+  }
+
+  .apply-button {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,30 @@
+<div class="first-step-container">
+    <!-- Paso 1: Selección de ubicación -->
+    @if (currentStep === 1) {
+    <app-location-picker (locationSelected)="onLocationSelected($event)">
+    </app-location-picker>
+    }
+
+    <!-- Paso 2: Formulario de detalles -->
+    @if (currentStep === 2) {
+    <app-merendero-details-form (merenderoCreated)="getMerenderoCreated($event)">
+    </app-merendero-details-form>
+    }
+
+    <!-- Paso 3: Conectar con Mercado Pago -->
+    @if (currentStep === 3) {
+    <div class="container contenedor-mercado mt-5">
+
+        <h3 class="step-title" style="border-bottom: none;">¡Último paso!</h3>
+        <p class="mp-texto">Conecta tu merendero para recibir donaciones</p>
+        <button class="mercado-pago-btn" (click)="conectarConMercadoPago()">
+
+            <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.9/mercadopago/logo__small@2x.png"
+                alt="Mercado Pago" height="20" style="filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1))">
+            Conectar con Mercado Pago
+        </button>
+        <small class="mp-nota">* Solo necesitamos vincular tu cuenta para habilitar donaciones</small>
+    </div>
+    }
+
+</div>

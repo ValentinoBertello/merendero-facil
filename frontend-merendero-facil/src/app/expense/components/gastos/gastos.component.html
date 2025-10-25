@@ -1,0 +1,166 @@
+<!-- Spinner de carga -->
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+    <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+
+<div *ngIf="!isLoading" class="container mt-3">
+    @if (expenses.length === 0) {
+    <div class="alert alert-warning">No hay gastos registrados</div>
+    <!-- Botón agregar insumo activo -->
+    <div style="margin-top: -11px;" class="row">
+        <div class="col-md-12 d-flex align-items-end mb-2">
+            <button (click)="navigateToAddExpense()" class="btn btn-success">
+                Registrar Gasto
+            </button>
+        </div>
+    </div>
+    }
+
+    <div *ngIf="expenses.length > 0;" class="current-supplies">
+        <h4 class="text-center green-title" style="margin-top: 10px;">
+            Gastos
+        </h4>
+
+        <div style="margin-top: -5px;" class="row mb-1">
+
+            <div class="col-md-2">
+                <label class="form-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+
+
+            <div class="col-md-2">
+                <label class="form-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+
+            <!-- Agregar en la sección de filtros -->
+            <div class="col-md-3">
+                <label class="form-label">Filtar por tipo</label>
+                <div class="d-flex align-items-center">
+                    <select [(ngModel)]="selectedFilter" class="form-select" (ngModelChange)="onAnyFilterChange()">
+                        <option value="">...</option>
+                        <option value="insumos">Compra de Insumos</option>
+                        <option value="luzgas">Luz y Gas</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="limpieza">Productos de Limpieza</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Agregar en la sección de filtros -->
+            <div class="col-md-2  ">
+                <label class="form-label">Ordenar por...</label>
+                <div class="d-flex align-items-center">
+
+                    <select class="form-select" [(ngModel)]="sortField" (ngModelChange)="onAnyFilterChange()">
+                        <option value="fecha">Fecha</option>
+                        <option value="costo">Costo</option>
+                        <option value="tipo">Tipo</option>
+                    </select>
+
+                    <button class="green-btn" style="padding: 17px 6px 17px 6px;"
+                        (click)="toggleSortDirection(); onAnyFilterChange()">
+                        <i class="fas fa-lg"
+                            [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short'"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-primary" (click)="applyFilters()" [class.attention-pulse]="shouldAnimateApplyButton">
+                    Aplicar
+                </button>
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end">
+                <button style="margin-right: 20px; margin-left: -10px;" (click)="navigateToAddExpense()"
+                    class="green-btn">
+                    Registrar
+                </button>
+                <button (click)="exportExcel()" class="btn btn-success me-2">
+                    <i class="bi bi-file-earmark-excel"></i>
+                </button>
+                <button (click)="exportPdf()" class="btn btn-danger me-2"><i
+                        class="bi bi-file-earmark-pdf"></i></button>
+            </div>
+        </div>
+
+
+
+
+        <div class="table-responsive">
+            <table class="table green-table">
+                <thead>
+                    <tr>
+                        <th style="color: #2ca58d;" scope="col">Tipo</th>
+                        <th style="color: #2ca58d;" scope="col" class="costo-col">Costo</th>
+                        <th style="color: #2ca58d;" scope="col">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let expense of filteredExpenses | paginate: { 
+                                itemsPerPage: itemsPerPage,
+                                currentPage: currentPage
+                                }" class="supply-row">
+                        <td style="padding: 19px;">
+                            @if (expense.type == 'Compra de Insumos') {
+                            <i #tooltipTrigger class="fas fa-info-circle me-1 icon-hover" tabindex="0" role="button"
+                                [attr.title]="
+                            expense.quantity + ' ' +
+                            getUnit(expense.unit) + ' de ' +
+                            expense.supplyName + ' compradas el ' +
+                            (expense.expenseDate | date: 'dd/MM/yyyy')
+                " data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Más detalles"
+                                style="cursor: pointer;"></i> {{
+                            expense.type }}
+                            } @else {
+                            {{ expense.type }}
+                            }
+
+                        </td>
+                        <td style="padding: 19px;" class="amount">
+                            <span class="cost-value">{{ expense.amount| currencyArs:'$':false }}</span>
+                        </td>
+                        <td style="padding: 19px;">
+                            {{ expense.expenseDate | date:'dd/MM/yyyy' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Controles de paginación -->
+            <div class="text-center" style="margin-bottom: -9px;">
+                <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+
+            <style>
+                .my-pagination ::ng-deep .ngx-pagination .current {
+                    background: #2ca58d;
+                    color: white;
+                }
+            </style>
+        </div>
+
+
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class=" text-center mt-5 mb-4">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+
+</div>

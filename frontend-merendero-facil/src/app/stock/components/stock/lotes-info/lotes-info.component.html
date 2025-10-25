@@ -1,0 +1,65 @@
+<!-- Modal para mostrar lotes -->
+<div id="lotesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">Lotes de: <span style="font-weight: 600; font-size: 2.1rem; color: #2ca58d;">{{
+                        selectedSupply?.supplyName }}</span></h5>
+                <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    @if (lotesModel.length === 0) {
+                    <div class="alert alert-info">
+                        No hay lotes registrados para este insumo
+                    </div>
+                    }
+
+                    <!-- TABLA DE LOTES -->
+                    @if (lotesModel.length > 0) {
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Lote</th>
+                                <th>Cantidad Actual</th>
+                                <th>Vencimiento</th>
+                                <th>Días restantes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lote of lotesModel; let i = index"
+                                [ngClass]="{'table-warning': isExpiringSoon(lote.expirationDate)}">
+                                <!-- numero orden -->
+                                <td style="padding-right: 40px;">{{i + 1}}</td>
+                                <!-- cantidad -->
+                                <td>
+                                    <span class="quantity-bold">{{ lote.currentQuantity }}</span>
+                                    @if (selectedSupply.unit === 'KG') {
+                                    <span class="unit-gray">kg</span>
+                                    } @else if (selectedSupply.unit === 'LITRO') {
+                                    <span class="unit-gray">L</span>
+                                    } @else {
+                                    <span class="unit-gray">unidades</span>
+                                    }
+                                </td>
+                                <!-- fecha de vencimiento -->
+                                <td>{{ lote.expirationDate | date:'dd/MM/yyyy' }}</td>
+                                <!-- dias restantes para la fecha de vencimiento -->
+                                <td>
+                                    <span [ngClass]="{'text-danger': lote.daysToExpire <= 15}">
+                                        {{ lote.daysToExpire }} días
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

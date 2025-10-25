@@ -1,0 +1,109 @@
+/* Navbar naranja */
+.navbar {
+  background-color: #ffb343 !important;
+  border-bottom: none;
+  padding: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* imagen del logo principal */
+.img-logo {
+  width: 70px;
+  height: 70px;
+}
+
+/* Estilos generales para los enlaces */
+.navbar-nav .nav-link {
+  color: #6d2e00 !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  margin: 0 0.25rem;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-item:hover .nav-link {
+  background-color: rgba(109, 46, 0, 0.1);
+  color: #5a2700 !important;
+}
+
+.navbar-nav .nav-item:hover .nav-link i {
+  color: #5a2700 !important;
+}
+
+/* Iconos */
+.navbar-nav .nav-link i {
+  transition: all 0.3s ease;
+}
+
+/* Botón toggler para móviles */
+.navbar-toggler {
+  border-color: rgba(109, 46, 0, 0.5);
+}
+
+.navbar-nav .nav-item:hover .nav-link::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Título*/
+.navbar-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #5a2700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  transform: perspective(30px) rotateX(1deg);
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Versión responsive */
+@media (max-width: 576px) {
+  .navbar-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ============================= */
+
+.stock-navbar {
+  background-color: #2ca58d !important;
+  /* puedes ajustar el tono (e.g. #008080, #2ca58d, #20b2aa...) */
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.stock-navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.stock-navbar .nav-link {
+  color: #ffffff !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  margin: 0 0.25rem;
+  font-weight: 500;
+}
+
+.stock-navbar .nav-item:hover .nav-link {
+  color: #ffffff !important;
+}
+
+.stock-navbar .nav-item:hover .nav-link i {
+  color: #ffffff !important;
+}
+
+.stock-navbar .dropdown-menu {
+  background-color: #2ca58d;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stock-navbar .dropdown-item {
+  color: #ffffff !important;
+}
+
+.stock-navbar .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
+}

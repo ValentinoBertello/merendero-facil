@@ -1,0 +1,149 @@
+/* Colores */
+.text-brown {
+  color: #6b3006;
+}
+
+.first-step-container {
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* titulo */
+.step-title {
+  font-size: 2.2rem;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-bottom: 3px solid #ffd000
+}
+
+/* Mercado pago*/
+/* Texto descriptivo */
+.mp-texto {
+  font-family: "Poppins";
+  font-size: 16.8px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Botón */
+.mercado-pago-btn {
+  font-family: 'Poppins';
+  background: linear-gradient(135deg, #009EE3 0%, #00A8E8 100%);
+  color: #fff;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.mercado-pago-btn img {
+  margin-right: 8px;
+  margin-bottom: 1px;
+}
+
+/* Nota pequeña */
+.mp-nota {
+  font-size: 15px;
+  color: #888;
+  margin-top: 15.5px;
+  display: block;
+  margin-bottom: -15px;
+}
+
+/* Estilos para la sección de mercado pago*/
+.contenedor-mercado {
+  max-width: 1500px;
+  margin: -9px auto 0;
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 0 30px -10px rgba(255, 165, 30, 0.356),
+    0 4px 25px rgba(255, 153, 0, 0.1);
+}
+
+/* Aviso de que al pagina es una DEMO */
+.demo-alert {
+  background: #fffaf0;
+  border: 1px solid #ffd8a8;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.alert-icon {
+  background: #fff;
+  border: 1px solid #ffd8a8;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #ff9900;
+  font-size: 14px;
+}
+
+.alert-content {
+  font-size: 14px;
+  color: #5c3d0a;
+}
+
+.alert-content strong {
+  color: #5c3d0a;
+  font-weight: 600;
+}
+
+
+@media (max-width: 1300px) {
+  .step-title {
+    margin-bottom: 42px;
+    margin-top: -16px;
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 900px) {
+  .step-title {
+    font-size: 30px;
+    margin-bottom: 5px !important;
+    margin-top: -16px;
+    border-bottom-width: 2px;
+  }
+
+  .demo-alert {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .alert-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/* Responsive para móviles muy pequeños */
+@media (max-width: 500px) {
+ .step-title {
+    font-size: 22px;
+  }
+}

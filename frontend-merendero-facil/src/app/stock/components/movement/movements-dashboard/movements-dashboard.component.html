@@ -1,0 +1,159 @@
+<div class="custom-container mt-2">
+    <!-- Primer fila: -->
+    <div class="row">
+        <!-- titulo -->
+        <div class="col-lg-5">
+            <h2 class="mb-2 step-title">Reportes de Entradas y Salidas</h2>
+        </div>
+        <!-- filtros -->
+        <!-- desde -->
+        <div class="col-lg-2 mt-2">
+            <div>
+                <label class="form-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+        </div>
+        <!-- hasta -->
+        <div class="col-lg-2 mt-2">
+            <div>
+                <label class="form-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()" />
+            </div>
+        </div>
+        <!-- insumo -->
+        <div class="col-lg-2 mt-2">
+            <label class="form-label">Insumo</label>
+            <select class="form-select" [(ngModel)]="selectedSupply" (ngModelChange)="onAnyFilterChange()">
+                <option [ngValue]="undefined">Elige un insumo</option>
+                @for(s of supplies; track $index) {
+                <option [ngValue]="s">{{s.name}}</option>
+                }
+            </select>
+        </div>
+        <!-- Aplicar btn -->
+        <!-- Botón Aplicar -->
+        <div class="col-lg-1 aplicar-group">
+            <button class="btn btn-primary btn-aplicar" (click)="applyFilters()"
+                [class.attention-pulse]="shouldAnimateApplyButton">Aplicar</button>
+        </div>
+    </div>
+
+    @if (!this.isLoading && this.googleChartsLoaded) {
+    @if (this.summaryMovements.groupsMovements.length > 1) {
+    <div class="row mt-3">
+        <div class="col-md-5">
+            <div class="row">
+                <!-- Datos de entradas -->
+                <div class="col-md-6">
+                    <p class="subra-green " style="font-weight: 600;">Promedios de entradas:</p>
+                    <p class="parrafo-promedios">
+                        <span class="datos-by-group">
+                            Entradas por día:
+                        </span>
+                        <span class="resultados-promedios">
+                            {{ summaryMovements.avgEntryDay | currencyArs:'':true }} {{ unidadMedidaPlural }}
+                        </span>
+                    </p>
+                    <p class="parrafo-promedios">
+                        <span class="datos-by-group">Entradas por
+                            semana: </span>
+                        <span class="resultados-promedios">{{
+                            summaryMovements.avgEntryWeek | currencyArs:'':true }} {{ unidadMedidaPlural }}</span>
+                    </p>
+                </div>
+                <!-- Datos de salida -->
+                <div class="col-md-6">
+                    <p class="subra-red" style="font-weight: 600;">Promedios de salidas:</p>
+                    <p class="parrafo-promedios">
+                        <span class="datos-by-group">Salidas por
+                            día: </span>
+                        <span class="resultados-promedios">{{ summaryMovements.avgOutputDay
+                            | currencyArs:'':true }} {{ unidadMedidaPlural }}</span>
+                    </p>
+
+                    <p class="parrafo-promedios">
+                        <span class="datos-by-group">Salidas por
+                            semana: </span>
+                        <span class="resultados-promedios">{{ summaryMovements.avgOutputWeek
+                            | currencyArs:'':true }} {{ unidadMedidaPlural }}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Grafico (Pie) de entradas y salidas totales  -->
+                <div class="col-md-6 left-graficos">
+                    <div class="text-center mt-3" style="margin-left: 20px; margin-bottom: -10px;">
+                        <p style="margin-bottom: 0.3px;">
+                            <span class="mini-title-entr-sal" style="color: #16816cd2;">Entradas:
+                            </span>
+                            <span class="mini-title-entr-sal"> {{ summaryMovements.totalEntry | currencyArs:'':true }}
+                                {{unidadMedidaPlural}}
+                            </span>
+                        </p>
+                        <p style="margin-top: 3.6px;">
+                            <span class="mini-title-entr-sal" style="color: #d33737ee;">Salidas: </span>
+                            <span class="mini-title-entr-sal">{{ summaryMovements.totalOutput | currencyArs:'':true}} {{
+                                unidadMedidaPlural }}</span>
+                        </p>
+                    </div>
+                    <div>
+                        <app-movements-pie-chart [summaryMovements]="summaryMovements"
+                            [googleChartsLoaded]="googleChartsLoaded">
+                        </app-movements-pie-chart>
+                    </div>
+                </div>
+                <!-- Grafico de tipos de entradas -->
+                <div class="col-md-6 left-graficos ">
+                    <div class="text-center">
+                        <p class="tipos-de-entrada mt-4 mb-3">Tipos de entradas</p>
+                    </div>
+                    <app-entries-pie-chart [summaryMovements]="summaryMovements"
+                        [googleChartsLoaded]="googleChartsLoaded">
+                    </app-entries-pie-chart>
+                </div>
+            </div>
+            <div class="row last-parrafo">
+                <!-- Párrafo comparando porcentaje entre salidas y entradas -->
+                <p class="text-center mt-5" style="font-family: Poppins;">
+                    @if (summaryMovements.percentageVariationEntry > summaryMovements.percentageVariationOutput) {
+                    <ng-container>
+                        Hay un {{ summaryMovements.percentageVariationEntry | number:'1.0-0' }}%
+                        más de entradas que salidas
+                    </ng-container>
+                    } @else {
+                    <ng-template>
+                        Hay un {{ summaryMovements.percentageVariationOutput | number:'1.0-0' }}%
+                        más de salidas que entradas
+                    </ng-template>
+                    }
+                </p>
+            </div>
+        </div>
+        <!-- Gráfico principal de barras -->
+        <div class="col-md-7">
+            @if (!isSmallScreen) {
+            <app-movements-bars-chart [summaryMovements]="summaryMovements" [googleChartsLoaded]="googleChartsLoaded"
+                [unidadMedidaSingular]="unidadMedidaSingular" [selectedSupply]="selectedSupply" [groupBy]="groupBy">
+            </app-movements-bars-chart>
+            } @else {
+            <p class="mini-title subra-green" style="font-size: 19px;">Movimientos en el tiempo:</p>
+            <app-movements-bars-mobile-chart [summaryMovements]="summaryMovements"
+                [googleChartsLoaded]="googleChartsLoaded" [groupBy]="groupBy"
+                [unidadMedidaSingular]="unidadMedidaSingular">
+            </app-movements-bars-mobile-chart>
+            }
+        </div>
+    </div>
+    } @else {
+    <p class="text-center" style="margin-top: 100px; font-weight: 600;">No hay resultados con los filtros
+        seleccionados...</p>
+    }
+    } @else {
+    <div class="mt-4 d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    }
+</div>

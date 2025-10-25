@@ -1,0 +1,49 @@
+.terminos-simples {
+  max-width: 700px;
+  margin: 1rem auto;
+  padding: 1rem;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
+  color: #5a2700;
+}
+
+.terminos-item {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fff8f0;
+  border-left: 3px solid #ffb343;
+}
+
+.terminos-item h3 {
+  color: #6d2e00;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.terminos-item ul {
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+}
+
+.terminos-item li {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.terminos-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #7e3603;
+}
+
+h2 {
+  text-align: center;
+  color: #5a2700;
+  margin-bottom: 2rem;
+  font-size: 1.3rem;
+}
+
+
+
+

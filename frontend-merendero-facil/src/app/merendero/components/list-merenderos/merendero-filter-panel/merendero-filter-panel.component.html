@@ -1,0 +1,55 @@
+<div class="filters-fullpanel">
+    <!-- panel header -->
+    <div class="filters-header">
+        <h3 class="filters-title">Filtrar Merenderos</h3>
+        <button class="close-filters" (click)="onClose()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <!-- filtros -->
+    <div class="filters-content">
+        <!-- Filtro: abiertos ahora -->
+        <label class="filter-item">
+            <div class="checkbox-container">
+                <input type="checkbox" [(ngModel)]="localFilters.openNow" class="custom-checkbox">
+                <span class="checkmark"></span>
+            </div>
+            <div class="filter-label">
+                <i class="fas fa-clock icon"></i>
+                <span>Abiertos ahora</span>
+            </div>
+        </label>
+
+        <!-- Filtro: capacidad mínima -->
+        <label class="filter-item capacity-filter">
+            <input type="number" min="0" [(ngModel)]="localFilters.capacityMin" class="capacity-input form-control"
+                placeholder="Ej. 50" />
+            <span>Capacidad mínima:</span>
+        </label>
+
+        <!-- Filtro: abre todos los días -->
+        <label class="filter-item">
+            <div class="checkbox-container">
+                <input type="checkbox" [(ngModel)]="localFilters.openEveryDay" class="custom-checkbox">
+                <span class="checkmark"></span>
+            </div>
+            <div class="filter-label">
+                <i class="fas fa-calendar-check icon"></i>
+                <span>Abre todos los días</span>
+            </div>
+        </label>
+
+
+        <!-- Botones de acción para filtros -->
+        <div class="filter-actions">
+            <button class="btn btn-map" (click)="onApply()">
+                <i class="fas fa-check-circle icon"></i>
+                Aplicar
+            </button>
+            <button class="btn btn-clear" (click)="onClear()">
+                <i class="fas fa-times-circle icon"></i>
+                Limpiar
+            </button>
+        </div>
+    </div>
+</div>

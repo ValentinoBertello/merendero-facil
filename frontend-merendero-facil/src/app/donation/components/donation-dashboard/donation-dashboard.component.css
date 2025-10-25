@@ -1,0 +1,329 @@
+/* 
+   Custom Container: idéntico en anchura que Bootstrap, pero con menos padding lateral
+ */
+.custom-container {
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* Título principal de la sección de reportes */
+.step-title {
+  font-size: 1.81rem;
+  margin-top: 7px;
+  margin-bottom: 1px;
+  color: #444444;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 1px;
+  /* width: fit-content; */
+}
+
+/* Grupo para inputs de fecha con alineación horizontal */
+.date-group {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para labels de fecha con ancho mínimo consistente */
+.date-label {
+  margin-right: 10px;
+  min-width: 90px;
+  font-weight: 500;
+}
+
+/* Posicionamiento específico para grupo de fecha "desde" */
+.fecha-desde-group {
+  margin-top: 10px;
+  margin-left: -90px;
+}
+
+/* Posicionamiento específico para grupo de fecha "hasta" */
+.fecha-hasta-group {
+  margin-top: 10px;
+  margin-left: 100px;
+}
+
+/* Labels con subrayado decorativo para secciones de datos */
+.label-datos {
+  margin-right: 5px;
+  font-family: Poppins;
+  font-size: 15px;
+  border-bottom: 2px solid #ee775973;
+}
+
+/* Valores numéricos en las secciones de datos */
+.resultado-datos {
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 600;
+  color: #46525c;
+}
+
+/* Valor numérico de variación con flechita */
+.result-value {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+/* Porcentaje de variación en las estadísticas comparativas */
+.result-percentage {
+  font-size: 16px;
+  padding-right: 10px;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+/* Badge azul para estadísticas de donantes recurrentes */
+.bg-azul {
+  background-color: #104c9c;
+  padding: 4px;
+  color: white;
+  font-family: 'Poppins';
+  font-size: 13.2px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+/* Badge verde para estadísticas de donantes nuevos */
+.bg-green {
+  background-color: #4bb160;
+  padding: 4px;
+  color: white;
+  font-family: 'Poppins';
+  font-size: 13.2px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+/* Color verde para indicar ganancia/crecimiento positivo */
+.profit {
+  color: #27ae60;
+}
+
+/* Color rojo para indicar pérdida/decrecimiento */
+.loss {
+  color: #e74c3c;
+}
+
+/* Títulos secundarios dentro de las secciones */
+.mini-title {
+  color: #46525c;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Contenedor para tarjetas de gráficos */
+.chart-card {
+  border: 1px solid #d2d7d8;
+  padding: 8.5px;
+}
+
+/* Lista con comportamiento de tabla para top donantes */
+.ul-table {
+  display: table;
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+/* Celdas de la lista-table para top donantes */
+.ul-cell {
+  display: table-cell;
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  font-family: 'Poppins';
+  color: #46525c;
+}
+
+/* Estilo específico para columna de email en top donantes */
+.ul-cell.email {
+  font-size: 13px !important;
+}
+
+/* Estilo específico para columna de montos en top donantes */
+.ul-cell.amount {
+  text-align: right;
+  font-size: 15px;
+  padding-right: 1rem;
+}
+
+/* Grupo para el botón aplicar */
+.aplicar-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 90px;
+}
+
+/* Animación sutil de atención para el botón Aplicar - 3 segundos */
+.btn-primary.attention-pulse {
+  animation: attentionPulse 2s ease-in-out infinite;
+  border-color: #2065e4;
+  box-shadow: 0 0 0 2px rgb(10, 29, 201);
+}
+
+@keyframes attentionPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0.7);
+  }
+
+  25% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0.3);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px rgba(32, 156, 228, 0);
+  }
+
+  75% {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0);
+  }
+}
+
+@media (max-width: 1450px) {
+
+  /* Convierte todas las columnas en una sola columna apilada verticalmente */
+  .col-lg-6,
+  .col-lg-3,
+  .col-lg-5,
+  .col-lg-2 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Centra el título principal */
+  .step-title {
+    text-align: center !important;
+  }
+
+  /* Aumenta el tamaño de fuente de los valores de datos para mejor legibilidad */
+  .resultado-datos {
+    font-size: 15px;
+  }
+
+  /* Incrementa el tamaño de los porcentajes */
+  .result-percentage {
+    font-size: 20px;
+  }
+
+  /* Aumenta el tamaño de los valores principales */
+  .result-value {
+    font-size: 16px;
+  }
+
+  /* Ajusta las etiquetas de datos a un tamaño más legible */
+  .label-datos {
+    font-size: 16px;
+  }
+
+  /* Agrega margen inferior y bordes redondeados a los contenedores de gráficos */
+  .chart-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+
+  /* Ajustes de espaciado para el último grupo de gráficos */
+  .ultimo-graf-pack {
+    margin-top: -1px;
+    margin-bottom: 17px;
+  }
+
+  /* Cambia la dirección de los grupos de fecha a columna y los centra */
+  .date-group,
+  .date-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Ajustes para el botón aplicar en pantallas pequeñas */
+  .aplicar-group {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-top: 15px !important;
+    justify-content: center;
+    margin-left: 0px;
+  }
+
+  .btn-aplicar {
+    margin-top: 0;
+    width: 200px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /* Ajuste para las columnas de fecha */
+  .fecha-desde-group,
+  .fecha-hasta-group {
+    flex: 50% !important;
+    max-width: 100% !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* Ajuste para el título */
+  .col-lg-4 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 15px;
+  }
+}
+
+/* =============================================
+   MEDIA QUERY PARA PANTALLAS HASTA 1050px
+   ============================================= */
+@media (max-width: 1050px) {
+
+  /* Reduce el tamaño de los porcentajes de variación */
+  .result-percentage {
+    font-size: 13px;
+    font-weight: 450;
+    margin-bottom: 5px;
+    padding-right: 2.1px;
+  }
+
+  /* Ajusta el tamaño de los valores principales */
+  .result-value {
+    font-size: 14.3px;
+    font-weight: 450;
+  }
+
+  /* Reduce el tamaño de las etiquetas de datos */
+  .label-datos {
+    font-size: 13.3px;
+  }
+
+  /* Ajusta el tamaño de los valores de datos */
+  .resultado-datos {
+    font-size: 13px;
+  }
+
+  /* Reduce el tamaño del título principal */
+  .step-title {
+    font-size: 20px;
+  }
+
+  /* Margin aplicado a uno de los datos de la primer fila */
+  .margin-bottom-mobile {
+    margin-bottom: 20px !important;
+  }
+
+  /* Padding aplicado al gráfico tipos de donantes */
+  .padding-bottom-mobile {
+    padding-bottom: 15px;
+  }
+}

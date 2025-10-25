@@ -1,0 +1,61 @@
+<div class="info-fullpanel" [class.show]="showInfoPanel">
+      <!-- header -->
+      <div class="info-header">
+        <h3 class="info-title">{{ merendero?.name }}</h3>
+        <button class="close-info" (click)="cerrarPanel()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="info-content">
+        <div class="info-section">
+          <!-- Dirección -->
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-map-marker-alt icon"></i> Dirección:</span>
+            <p class="info-text">{{ merendero?.address }}</p>
+          </div>
+
+          <!-- Capacidad -->
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-users icon"></i> Capacidad Aproximada:</span>
+            <span class="info-text">{{ merendero?.capacity }} personas</span>
+          </div>
+
+          <!-- Días de atención -->
+          <div class="info-item">
+            <span class="info-label">Días de atención:</span>
+            <div class="days-container">
+              @for (day of getDaysArray(); track day) {
+              <span class="info-text" [class.active]="isDayActive(day)">
+                {{ day }}
+              </span>
+              }
+            </div>
+          </div>
+
+          <!-- Horario -->
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-clock icon"></i> Horario:</span>
+            <p class="info-text">{{ merendero?.openingTime }} - {{ merendero?.closingTime }}</p>
+          </div>
+
+          <!-- Abierto o Cerrado -->
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-info-circle icon"></i> Estado actual:</span>
+            <span class="status-badge" [class.open]="merendero?.openNow">
+              {{ merendero?.openNow ? 'Abierto' : 'Cerrado' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Enlace a Google Maps -->
+        <div class="map-link">
+          <a href="https://www.google.com/maps?q={{merendero?.latitude}},{{merendero?.longitude}}"
+            target="_blank" class="btn btn-map">
+            <i class="fas fa-map-marked-alt"></i> Ver en <span style="font-family: 'Google Sans', Arial, sans-serif;">
+              Google Maps
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>

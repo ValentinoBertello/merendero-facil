@@ -1,0 +1,83 @@
+<div class="container mt-4">
+    <!-- Spinner de carga -->
+    <div class="spinner-overlay" *ngIf="isLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <form [formGroup]="formReactivo" (ngSubmit)="processDonation()" class="merendero-form">
+        <div class="text-center">
+            <label class="step-title">
+                Seleccioná tu monto
+            </label>
+        </div>
+
+        <!-- Contenedor de círculos (montos fijos) -->
+        @if (!showCustomAmount) {
+        <div class="circle-row">
+            <button type="button" class="amount-circle" (click)="donateFixedAmount(50000)">
+                $50.000
+            </button>
+
+            <button type="button" class="amount-circle" (click)="donateFixedAmount(30000)">
+                $30.000
+            </button>
+
+            <button type="button" class="amount-circle" (click)="donateFixedAmount(15000)">
+                $15.000
+            </button>
+
+            <button type="button" class="amount-circle" (click)="donateFixedAmount(8000)">
+                $8000
+            </button>
+
+            <button type="button" class="amount-circle" (click)="donateFixedAmount(4000)">
+                $4000
+            </button>
+
+            <button type="button" class="amount-circle custom-amount-circle" (click)="toggleCustomAmount()">
+                Otro importe
+            </button>
+        </div>
+        }
+
+        <!-- Cartel de monto personalizado -->
+        @if (showCustomAmount) {
+        <div class="custom-amount-container">
+            <div class="custom-amount-header">
+                <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.9/mercadopago/logo__small@2x.png"
+                    alt="Mercado Pago" height="30" class="mp-logo">
+                <h4 class="custom-amount-title">Ingresá tu monto</h4>
+                <button type="button" class="close-btn" (click)="toggleCustomAmount()">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Input de importe personalizado -->
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input id="amount" type="number" class="form-control" formControlName="amount"
+                    [ngClass]="{'is-invalid': formReactivo.get('amount')?.invalid && formReactivo.get('amount')?.touched}"
+                    placeholder="Ej: 5000">
+            </div>
+
+            <!-- Errores -->
+            @if(formReactivo.get('amount')?.invalid && formReactivo.get('amount')?.touched) {
+            @if(formReactivo.get('amount')?.hasError('required')) {
+            <div class="error-message">Debe indicar la cantidad a donar</div>
+            }
+            @if(formReactivo.get('amount')?.hasError('min')) {
+            <div class="error-message">El mínimo son 100 pesos</div>
+            }
+            }
+
+            <!-- Botón de donar solo visible en modo "Otro importe" -->
+            <button type="submit" class="mercado-pago-btn mt-3" [disabled]="isFormInvalid">
+                <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.9/mercadopago/logo__small@2x.png"
+                    alt="Mercado Pago" height="20">
+                Donar
+            </button>
+        </div>
+        }
+    </form>
+    <p style="font-size: 17px; font-weight: 500;" class="text-center mt-5">Tu donación es deducible de ganancias</p>
+</div>

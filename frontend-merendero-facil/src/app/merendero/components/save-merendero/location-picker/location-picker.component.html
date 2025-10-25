@@ -1,0 +1,33 @@
+<div class="first-step step-container">
+    <h2 class="step-title">¿Dónde está ubicado tu merendero?</h2>
+    <!-- Dirección -->
+    <div class="address-container">
+        <input #inputAddress id="address-input" type="text" class="form-control mb-3 shadow-sm"
+            placeholder="Ej: Av. Rivadavia 1234, CABA" />
+    </div>
+
+    <!-- Mapa -->
+    <div class="map-container">
+        <google-map mapId="afaebc583687a497" width="100%" height="100%" [zoom]="zoom" [center]="center">
+            <map-advanced-marker #marker="mapAdvancedMarker" [position]="markerPosition" [gmpDraggable]="true"
+                (mapDragend)="onMarkerDragEnd($event)" [title]="'Arrastra para ajustar posición'" />
+        </google-map>
+    </div>
+
+
+    <div class="navigation-buttons">
+        <!-- Siguiente paso -->
+        <button class="btn next-btn" (click)="emitUbication()" [disabled]="!ubicationDto.address">
+            Siguiente Paso ➔
+        </button>
+
+        <!-- Botón: "Ir a mi ubicación" -->
+        <button class="gps-button" (click)="getUserLocation()">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+                <path fill="currentColor"
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                <circle cx="12" cy="9" r="2" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+.quantity-bold {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.unit-gray {
+  color: #6c757d;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+/* cartel "donación" */
+.donation-pack {
+  text-align: right;
+  padding-right: 15.5rem !important;
+}
+
+.donation-badge {
+  background-color: #e8f5e9;
+  color: #43a047;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+
+}
+
+/* costo de la entrada */
+.cost-value {
+  font-weight: 500;
+  color: #1b461d;
+  text-align: right;
+  padding-right: 15.5rem !important;
+  padding-top: 19px;
+}
+
+
+
+.fecha-tabla {
+  padding-left: 13.7rem !important;
+}
+
+/* Animación sutil de atención para el botón Aplicar - 3 segundos */
+.btn-primary.attention-pulse {
+  animation: attentionPulse 2s ease-in-out infinite;
+  border-color: #2065e4;
+  box-shadow: 0 0 0 2px rgb(10, 29, 201);
+}
+
+@keyframes attentionPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0.7);
+  }
+
+  25% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0.3);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px rgba(32, 156, 228, 0);
+  }
+
+  75% {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 8px rgba(32, 156, 228, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 156, 228, 0);
+  }
+}
+
+
+@media (max-width: 1203px) {
+  .cost-value {
+    padding-right: 5.5rem !important;
+
+  }
+
+  .donation-pack {
+    padding-right: 5.5rem !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .fecha-tabla {
+    padding-left: 4.7rem !important;
+  }
+}

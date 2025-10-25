@@ -1,0 +1,58 @@
+/* Colores */
+.text-orange {
+    color: #ee9817;
+}
+
+/* Contenedor principal de formulario */
+.container-form {
+    max-width: 700px;
+    margin: -9px auto 0;
+    padding: 16px 30px 0 30px;
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid #ffd8a8;
+    box-shadow: var(--shadow-1), var(--shadow-2);
+    position: relative;
+}
+
+/* Inputs */
+.form-control {
+    border: 2px solid #ffe5cc;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: #ffb343;
+    box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+    background-color: #fffaf4;
+}
+
+/* Boton para avanzar */
+.next-btn {
+    margin-top: 10px;
+    background-color: #da8300;
+    color: #ffffff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin: auto;
+}
+
+.next-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+}
+
+.next-btn:active {
+    transform: translateY(1px);
+    background-color: #6B4226 !important;
+}
+
+/* Media query móviles (≤768px) */
+@media (max-width: 768px) {
+    .container-form {
+        padding: 16px !important;
+        margin: 0 -15px !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+}

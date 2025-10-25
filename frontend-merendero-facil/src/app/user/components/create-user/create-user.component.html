@@ -1,0 +1,21 @@
+@if (currentStep === 1) {
+     <!-- Paso 1: Validación inicial de email y envío de código -->
+    <app-email-step
+    mode="registration"
+    (email)="onEmailValidated($event)">
+  </app-email-step>
+}
+@if (currentStep === 2) {
+    <!-- Paso 2: Validación del código de verificación recibido por email -->
+    <app-code-step
+    [email]="emailToValidate"
+    (codeValidated)="onCodeValidated()">
+    </app-code-step>
+}
+@if (currentStep === 3) {
+    <!-- Paso 3: Completar datos de usuario y finalizar registro -->
+    <app-user-data-step
+    [email]="emailToValidate"
+    (userCreated)="onUserRegistered()">
+    </app-user-data-step>
+}

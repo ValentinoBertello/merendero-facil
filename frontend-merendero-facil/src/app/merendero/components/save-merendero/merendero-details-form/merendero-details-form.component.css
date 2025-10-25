@@ -1,0 +1,158 @@
+/* Colores */
+.text-brown {
+  color: #6b3006;
+}
+
+/* Contenedor principal del formulario */
+.merendero-form {
+  max-width: 800px;
+  margin: -9px auto 0;
+  padding: 12px 30px 0;
+  background: #fff;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 0 30px -10px rgba(255, 165, 30, 0.356),
+    0 4px 25px rgba(255, 153, 0, 0.1);
+}
+
+/* titulo */
+.step-title {
+  font-size: 2.2rem;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-bottom: 3px solid #ffd000
+}
+
+/* Botón para avanzar de paso*/
+.next-btn {
+  margin-top: 10px;
+  background-color: #A0522D;
+  color: #FFF8DC;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid #8B4513;
+  margin: auto;
+}
+
+/* Inputs estilizados */
+.form-control {
+  border: 2px solid #ffe5cc;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #ffb343;
+  box-shadow: 0 0 0 3px rgba(255, 179, 67, 0.2);
+  background-color: #fffaf4;
+}
+
+/* Boton de capacidad */
+.capacity-chip {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #ffe5cc;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #e49220;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &.selected {
+    background: linear-gradient(135deg, #e79e36 0%, #e79e36 100%);
+    color: white;
+    border-color: transparent;
+  }
+}
+
+/* Botón para los días */
+.day-chip {
+  padding: 0.5rem 1.2rem;
+  border: 2px solid #ffe5cc;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #e49220;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+
+  &.selected {
+    background: linear-gradient(135deg, #e79e36 0%, #e79e36 100%);
+    color: white;
+    border-color: transparent;
+  }
+}
+
+/* Container */
+.step-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 900px) {
+  .step-title {
+    font-size: 30px;
+    margin-bottom: 5px !important;
+    margin-top: -16px;
+    border-bottom-width: 2px;
+  }
+
+  /* Segundo paso */
+  .capacity-chip {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 11.3px;
+    margin-top: 4px;
+    font-size: 1rem;
+    border-radius: 20px;
+    min-width: 53px;
+  }
+
+  .d-flex.flex-wrap.gap-2 {
+    gap: 0.25rem !important;
+  }
+
+  .day-chip {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 15px;
+    min-width: 65px;
+    margin-bottom: 3px;
+    margin-right: 9px;
+  }
+
+  .d-flex.flex-wrap.gap-2 {
+    gap: 0.15rem !important;
+  }
+
+  .merendero-form {
+    padding: 0 20px !important;
+    margin: 0 -15px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .merendero-form::before {
+    display: none;
+  }
+}
+
+/* Responsive para móviles muy pequeños */
+@media (max-width: 500px) {
+ .step-title {
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,38 @@
+/* Inputs estilizados */
+.form-control {
+  border: 2px solid #8eebd8;
+  border-radius: 10px;
+}
+
+.form-select {
+  border: 2px solid #8eebd8;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  border-color: #4fddc1;
+  box-shadow: 0 0 0 3px #f6fffd(255, 179, 67, 0.2);
+  background-color: #f6fffd;
+}
+
+.form-select:focus {
+  border-color: #4fddc1;
+  box-shadow: 0 0 0 3px #f6fffd(255, 179, 67, 0.2);
+  background-color: #f6fffd;
+}
+
+/* span extra en "stock bajo" */
+.span-extra {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* boton deshabilitado */
+.green-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+label {
+  font-weight: 500;
+}

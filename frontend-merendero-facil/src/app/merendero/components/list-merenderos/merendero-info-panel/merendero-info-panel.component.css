@@ -1,0 +1,99 @@
+/* Contenedor del Panel de Información */
+.info-fullpanel {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* header del Panel de Información */
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0px;
+  margin-top: -14px;
+}
+
+/* titulo del Panel de Información */
+.info-title {
+  color: #e49220;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-info {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.info-content {
+  margin-top: -15px;
+  padding: 15px 0;
+}
+
+.info-section {
+  margin-bottom: 25px;
+}
+
+.info-item {
+  margin-bottom: 6px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.info-label {
+  display: block;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.info-text {
+  margin: 0;
+  color: #666;
+}
+
+/* abierto o cerrado cartel */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &.open {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  &:not(.open) {
+    background: #f8d7da;
+    color: #721c24;
+  }
+}
+
+/* boton para ir a google maps */
+.btn-map {
+  width: 100%;
+  background: #e49220;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+
+  &:hover {
+    background: #ffb343;
+    transform: translateY(-2px);
+  }
+}

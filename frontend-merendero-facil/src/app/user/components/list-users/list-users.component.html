@@ -1,0 +1,26 @@
+<div class="container mt-5">
+
+    <table class="table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roles</th>
+            <th scope="col">ELIMINAR</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of users">
+                <td>{{u.id}}</td>
+                <td>{{u.name}}</td>
+                <td>{{u.lastname}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.roles}}</td>
+                <td> <button style="color: red;" (click)="eliminarUser(u.id)">ELIMINAR</button> </td>
+              </tr>
+        </tbody>
+      </table>
+
+</div>

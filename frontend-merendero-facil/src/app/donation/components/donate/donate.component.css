@@ -1,0 +1,254 @@
+/* Titulo */
+.step-title {
+  font-size: 2.8rem;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  width: fit-content;
+  color: #ffb343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid #ffd000
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+/* Boton para donar (mostrado en "otro importe") */
+.mercado-pago-btn {
+  background: linear-gradient(135deg, #009EE3 0%, #00A8E8 100%);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.mercado-pago-btn:hover {
+  background: linear-gradient(135deg, #008ECC 0%, #0099D3 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 158, 227, 0.3);
+}
+
+.mercado-pago-btn img {
+  margin-right: 8px;
+  margin-bottom: 1px;
+}
+
+.mercado-pago-btn.mt-3 {
+  margin-top: 1.5rem !important;
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+
+/* contenedor de cirulos */
+.circle-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+/* Circulo indivdual normal */
+.amount-circle {
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #009EE3 0%, #00A8E8 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Circulo que dice "Otro importe" */
+.custom-amount-circle {
+  background: linear-gradient(135deg, #ffd000 0%, #fd9100 100%);
+  font-size: 1.1rem;
+}
+
+/* Contendeor de ventana de otro importe */
+.custom-amount-container {
+  background: linear-gradient(135deg, #009EE3 0%, #00c3ff 100%);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px rgba(0, 158, 227, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: pulse 2s infinite alternate;
+}
+
+/* Header de ventana de otro importe */
+.custom-amount-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* titulo */
+.custom-amount-title {
+  color: white;
+  margin: 0;
+  flex-grow: 1;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mp-logo {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Mensaje de error en al ventana */
+.error-message {
+  color: #ffeb3b;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 10px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Pantalla durante la carga */
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+/* spinner de carga */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 158, 227, 0.3);
+  border-radius: 50%;
+  border-top-color: #009ee3;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Deshabilitar botones durante carga */
+.amount-circle[disabled],
+.custom-amount[disabled],
+.mercado-pago-btn[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Carteles de que es una demo */
+.demo-alert {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.alert-icon {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #fd9100;
+  font-size: 18px;
+}
+
+.alert-content {
+  font-size: 15px;
+  color: #555;
+}
+
+.credentials {
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.credentials div {
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.credentials .label {
+  width: 80px;
+  color: #777;
+  font-weight: 500;
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 768px) {
+  .amount-circle {
+    width: 110px;
+    height: 110px;
+    font-size: 1rem;
+  }
+
+  .step-title {
+    font-size: 2.0rem;
+  }
+
+  .circle-row {
+    gap: 15px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+}

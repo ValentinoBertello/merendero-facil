@@ -1,0 +1,53 @@
+<div class="container" style="margin-top: 100px;">
+    <div class="justify-content-center container-form p-4 rounded-4">
+        <h2 class="compact text-orange modern-title">
+            @if (mode === 'registration') {
+            Comencemos
+            } @else {
+            Recuperar Contraseña
+            }
+        </h2>
+
+        <form [formGroup]="emailForm" (ngSubmit)="sendCode()" class="login-form">
+            <div class="mb-4">
+                <!-- EMAIL -->
+                <label for="email" class="text-orange form-label">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-orange border-brown">
+                        <i class="fas fa-envelope text-orange"></i>
+                    </span>
+                    <input type="text" formControlName="email" class="form-control shadow-sm" id="email"
+                        [ngClass]="{'is-invalid': emailForm.get('email')?.invalid && emailForm.get('email')?.touched}">
+                </div>
+
+                <!-- ERRORES -->
+                @if (emailForm.get("email")?.invalid && emailForm.get('email')?.touched) {
+                @if (emailForm.get('email')?.hasError('required')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Correo requerido</div>
+                }
+                @if (emailForm.get('email')?.hasError('email')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Formato inválido</div>
+                }
+                @if (mode === 'registration' && emailForm.get('email')?.hasError('repeatedEmailError')) {
+                <div class="text-danger align-self-end">Correo ya registrado</div>
+                }
+                @if (mode === 'forgot-password' && emailForm.get('email')?.hasError('emailNotExists')) {
+                <div class="text-danger align-self-end">No hay ninguna cuenta asociada a ese correo</div>
+                }
+                }
+            </div>
+
+            <!-- AVANZAR -->
+            <button class="btn btn-block next-btn w-100" type="submit" [disabled]="emailForm.invalid || isSendingCode">
+                @if (isSendingCode) {
+                <div class="d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                </div>
+                } @else {
+                Continuar
+                }
+            </button>
+        </form>
+
+    </div>
+</div>

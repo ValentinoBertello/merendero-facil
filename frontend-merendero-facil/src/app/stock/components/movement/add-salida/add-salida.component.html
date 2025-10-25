@@ -1,0 +1,85 @@
+<div class="container mt-3">
+
+    <h5 style="margin-top: -5px; display: inline-block; padding-bottom: 10px;" class="text-center red-title"><i
+            class="fas fa-angle-double-down me-1"></i>
+        Agregar
+        Salida</h5>
+
+    <form [formGroup]="formReactivo" (ngSubmit)="onSubmitForm()" class="">
+
+        <!-- Supply -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">
+                    ¿De qué insumo se trata?
+                </label>
+                <select class="form-select" formControlName="supplyId"
+                    [ngClass]="{'is-invalid': formReactivo.get('supplyId')?.invalid && formReactivo.get('supplyId')?.touched}">
+                    <option value="">Selecciona un insumo</option>
+                    @for (s of supplies; track $index) {
+                    <option [value]="s.id">
+                        {{ s.name }}
+                    </option>
+                    }
+                </select>
+
+                @if(formReactivo.get('supplyId')?.invalid && formReactivo.get('supplyId')?.touched) {
+                @if(formReactivo.get('supplyId')?.hasError('required')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                }
+                }
+
+            </div>
+        </div>
+
+        <!-- Supply -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">
+                    Cantidad
+                </label>
+                <input class="form-control" type="number" formControlName="quantity"
+                    [ngClass]="{'is-invalid': formReactivo.get('quantity')?.invalid && formReactivo.get('quantity')?.touched}">
+
+                @if(formReactivo.get('quantity')?.invalid && formReactivo.get('quantity')?.touched) {
+                @if(formReactivo.get('quantity')?.hasError('required')) {
+                <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+                }
+                @if(formReactivo.get('quantity')?.hasError('min')) {
+                <div class="text-danger align-self-end" style="width: 500px;">El mínimio es 1</div>
+                }
+                @if(formReactivo.get('quantity')?.hasError('quantityHigherThanStockError')) {
+                <div class="text-danger align-self-end" style="width: 500px;">No hay stock suficiente para esa cantidad</div>
+                }
+                }
+
+            </div>
+        </div>
+
+        @if (!isLoadingSave) {
+        <button type="submit" class="green-btn" [disabled]="formReactivo.invalid">
+            Registrar Salida
+        </button>
+        }
+
+        <!-- Spinner de carga -->
+        @if (isLoadingSave) {
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+        }
+    </form>
+
+    <!-- FOOTER -->
+    <div class="mt-4 text-center" style="padding-top: 14px;">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+</div>

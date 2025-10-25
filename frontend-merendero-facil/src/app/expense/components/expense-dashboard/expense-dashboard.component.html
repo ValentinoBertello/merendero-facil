@@ -1,0 +1,178 @@
+<div class="custom-container mt-2">
+    <!-- Primer fila -->
+    <div class="row" style="margin-bottom: 4px;">
+        <!-- Título -->
+        <div class="col-lg-4 col-md-12">
+            <h2 class="mb-2 step-title">Reportes de Gastos</h2>
+        </div>
+        <!-- Fecha desde -->
+        <div class="col-lg-2 col-md-4 fecha-desde-group">
+            <div class="date-group">
+                <label class="date-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="onAnyFilterChange()">
+            </div>
+        </div>
+        <!-- Fecha hasta -->
+        <div class="col-lg-2 col-md-4 fecha-hasta-group">
+            <div class="date-group">
+                <label class="date-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="onAnyFilterChange()">
+            </div>
+        </div>
+        <!-- Botón Aplicar -->
+        <div class="col-lg-2 col-md-4 aplicar-group">
+            <button class="btn btn-primary btn-aplicar" (click)="applyFilters()"
+                [class.attention-pulse]="shouldAnimateApplyButton">Aplicar</button>
+        </div>
+    </div>
+
+    @if (!this.isLoading && this.googleChartsLoaded) {
+    @if (expenseDashboard?.chartsData !== null) {
+    <!-- Segunda fila -->
+    <div class="row">
+        <!-- Gráfico de PIE de los TIPOS de gasto -->
+        <div class="mt-1 col-lg-4 chart-card">
+            <app-expense-by-type-pie-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded" [isSemiSmallScreen]="isSemiSmallScreen">
+            </app-expense-by-type-pie-chart>
+        </div>
+        <!-- Gráfico de BARRAS de los TIPOS de gasto -->
+        <div class="mt-1 col-lg-4 chart-card">
+            <!-- versión pc -->
+            @if (!isSemiSmallScreen) {
+            <app-expense-by-type-bar-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded">
+            </app-expense-by-type-bar-chart>
+            <!-- version mobile -->
+            } @else {
+            <app-expense-by-type-mobile-bar-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded">
+            </app-expense-by-type-mobile-bar-chart>
+            }
+
+        </div>
+        <!-- Gráfico de BARRAS de los gastos de INSUMOS -->
+        <div class="mt-1 col-lg-4 chart-card">
+            <!-- versión pc -->
+            @if (!isSemiSmallScreen) {
+            <app-expense-by-supply-bar-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded">
+            </app-expense-by-supply-bar-chart>
+            <!-- versión mobile -->
+            } @else {
+            <app-expense-by-supply-mobile-bar-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded">
+            </app-expense-by-supply-mobile-bar-chart>
+            }
+        </div>
+    </div>
+
+    <!-- Tercer fila -->
+    <div class="row">
+        <!-- Gráfico principal (Gastos vs Donaciones) -->
+        @if (!isSemiSmallScreen) {
+        <!-- Version pc -->
+        <div class="col-lg-8">
+            <app-expenses-vs-donations-time-line-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded" [groupBy]="groupBy">
+            </app-expenses-vs-donations-time-line-chart>
+        </div>
+        }
+        <!-- Sección de Datos -->
+        <div class="col-lg-4">
+            <p class="metric-title">
+                <b>Datos</b>
+            </p>
+            <!-- primer fila de sección Datos -->
+            <div class="row datos-first-row">
+                <!-- primer columna -->
+                <div class="col-6 left-for-col">
+                    <!-- Gastos totales -->
+                    <p class="metric-item">
+                        <span style="border-bottom: 2px solid #104c9c;" class="label-last-section">
+                            Gastos:
+                        </span>
+                        <span class="numeric-result">
+                            {{ expenseDashboard?.expenseSummaryData?.totalExpenseAmount | currencyArs:'$':false }}
+                        </span>
+
+                    </p>
+                    <!-- Donaciones totales -->
+                    <p class="metric-item">
+                        <span style="border-bottom: 2px solid #ee7859;" class="label-last-section">
+                            Donaciones:
+                        </span>
+                        <span class="numeric-result">
+                            {{ expenseDashboard?.expenseSummaryData?.totalDonationAmount | currencyArs:'$':false }}
+                        </span>
+                    </p>
+                </div>
+                <!-- Segunda columna -->
+                <div class="col-6">
+                    <!-- Ganancia o perdida proyectada -->
+                    <div class="variation-card"
+                        [ngClass]="(expenseDashboard?.expenseSummaryData?.totalProfitOrLoss ?? 0) >= 0 ? 'profit' : 'loss'">
+                        <!-- Título -->
+                        <div class="metric-text">
+                            {{ (expenseDashboard?.expenseSummaryData?.totalProfitOrLoss ?? 0) >= 0
+                            ? 'Ganancia proyectada sobre gastos'
+                            : 'Pérdida proyectada sobre gastos' }}
+                        </div>
+                        <!-- Números -->
+                        <div class="total-variation-value">
+                            <!-- Número total -->
+                            {{ expenseDashboard?.expenseSummaryData?.totalProfitOrLoss | currencyArs:'$':false
+                            }}
+                            <!-- Porcentaje -->
+                            <span class="result-percentage">
+                                <i class="bi"
+                                    [ngClass]="(expenseDashboard?.expenseSummaryData?.totalProfitOrLoss ?? 0) >= 0 ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
+                                {{ expenseDashboard?.expenseSummaryData?.profitOrLossPercentage }}%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- segunda fila de sección Datos -->
+            <div class="row" style="margin-top: -8px;">
+                <!-- Promedio diario de ganancia o perdida -->
+                <p class="text-center parrafo-promedio">
+                    @if ((expenseDashboard?.expenseSummaryData?.dailyProfitOrLoss ?? 0) >= 0) {
+                    En promedio se ha ganado {{ expenseDashboard?.expenseSummaryData?.dailyProfitOrLoss |
+                    currencyArs:'$':false }} al día
+                    } @else {
+                    En promedio se ha perdido {{ (expenseDashboard?.expenseSummaryData?.dailyProfitOrLoss || 0) * -1 |
+                    currencyArs:'$':false }} al día
+                    }
+                </p>
+            </div>
+            <!-- tercer fila de sección Datos -->
+            <div class="row final-chart-card" style="margin-top: -15px;">
+                <!-- Mini gráfico con total donaciones y total gastos -->
+                <app-expenses-vs-donations-bar-chart [expenseSummaryData]="expenseDashboard?.expenseSummaryData ?? null"
+                    [googleChartsLoaded]="googleChartsLoaded">
+                </app-expenses-vs-donations-bar-chart>
+            </div>
+        </div>
+
+        <!-- Gráfico principal (Gastos vs Donaciones) -->
+        @if (isSemiSmallScreen) {
+        <!-- Version mobile -->
+        <div class="col-lg-8 mt-4 mb-4">
+            <app-expenses-vs-donation-mobile-bar-chart [chartsData]="expenseDashboard?.chartsData ?? null"
+                [googleChartsLoaded]="googleChartsLoaded" [groupBy]="groupBy">
+            </app-expenses-vs-donation-mobile-bar-chart>
+        </div>
+        }
+    </div>
+    } @else {
+    <p class="text-center" style="font-weight: 600;">No hay datos entre esas fechas...</p>
+    }
+    } @else {
+    <div class="text-center mt-4">
+        <div class="spinner-border" style="margin-top: 150px;" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+    }
+</div>

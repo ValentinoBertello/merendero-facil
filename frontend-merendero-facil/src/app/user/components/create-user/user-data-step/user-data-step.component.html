@@ -1,0 +1,177 @@
+<div class="container mt-1">
+    <form [formGroup]="formReactivo" (ngSubmit)="onSubmitForm()" class="justify-content-center container-form mt-4">
+
+        <!-- Cartel de email validado -->
+        <h2 class="modern-title animacion-titulo compact text-center mb-3 mt-2">
+            <span class="validation-badge">
+                <i style="color: #488106b4;" class="fas fa-check-circle"></i>
+            </span>
+            <span class="text-orange">¡Email validado!</span>
+            <span class="animated-underline"></span>
+        </h2>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label text-orange">
+                Email
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-orange border-brown dark-readonly">
+                    <i style="color: #e79e36;" class="fa fa-envelope readonly-icon"></i>
+                </span>
+                <input [value]="email" readonly id="email" type="text"
+                    class="form-control shadow-sm border-brown dark-readonly">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <!-- Nombre -->
+            <div class="col-md-6 mb-2">
+                <label for="nombre" class="form-label text-orange">
+                    Nombre
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-orange border-brown">
+                        <i class="fas fa-user text-orange"></i>
+                    </span>
+                    <input id="nombre" type="text" class="form-control shadow-sm border-brown" formControlName="name"
+                        [ngClass]="{'is-invalid': formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched}">
+
+                    <!-- ERRORES -->
+                    @if(formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched) {
+                    @if(formReactivo.get('name')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Nombre es requerido</div>
+                    }
+                    @if(formReactivo.get('name')?.hasError('maxlength')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Demasiados caracteres</div>
+                    }
+                    @if(formReactivo.get('name')?.hasError('minlength')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Muy pocos caracteres</div>
+                    }
+                    @if(formReactivo.get('name')?.hasError('pattern')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Nombre inválido</div>
+                    }
+                    }
+                </div>
+            </div>
+
+            <!-- Apellido -->
+            <div class="col-md-6 mb-2">
+                <label for="lastname" class="form-label text-orange">
+                    Apellido
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-orange border-brown">
+                        <i class="fas fa-user text-orange"></i>
+                    </span>
+                    <input id="lastname" type="text" class="form-control shadow-sm border-brown"
+                        formControlName="lastname"
+                        [ngClass]="{'is-invalid': formReactivo.get('lastname')?.invalid && formReactivo.get('lastname')?.touched}">
+
+                    <!-- ERRORES -->
+                    @if(formReactivo.get('lastname')?.invalid && formReactivo.get('lastname')?.touched) {
+                    @if(formReactivo.get('lastname')?.hasError('required')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Apellido es requerido</div>
+                    }
+                    @if(formReactivo.get('lastname')?.hasError('maxlength')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Demasiados caracteres</div>
+                    }
+                    @if(formReactivo.get('lastname')?.hasError('pattern')) {
+                    <div class="text-danger align-self-end" style="width: 500px;">Apellido inválido</div>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="col-md-12 mb-3">
+            <label for="password" class="form-label text-orange">
+                Contraseña
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-orange border-brown">
+                    <i class="fas fa-lock text-orange"></i>
+                </span>
+                <input [type]="showPassword ? 'text' : 'password'" id="password"
+                    class="form-control shadow-sm border-brown" formControlName="password"
+                    [ngClass]="{'is-invalid': formReactivo.get('password')?.invalid && formReactivo.get('password')?.touched}">
+
+                <!-- boton del ojo -->
+                <button class="btn btn-outline-brown" type="button" (click)="showPassword = !showPassword">
+                    <i class="fas {{ showPassword ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                </button>
+            </div>
+
+            <!-- ERRORES -->
+            @if(formReactivo.get('password')?.invalid && formReactivo.get('password')?.touched) {
+            @if(formReactivo.get('password')?.hasError('required')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Contraseña es requerido</div>
+            }
+            @if(formReactivo.get('password')?.hasError('maxlength')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Demasiados caracteres</div>
+            }
+            @if(formReactivo.get('password')?.hasError('minlength')) {
+            <div class="text-danger align-self-end" style="width: 500px;">El mínimo son 8 caracteres</div>
+            }
+            @if(formReactivo.get('password')?.hasError('AtLeastOneMayus')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Debe haber al menos una letra mayúscula
+            </div>
+            }
+            @if(formReactivo.get('password')?.hasError('AtLeastOneMinus')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Debe haber al menos una letra minúscula
+            </div>
+            }
+            @if(formReactivo.get('password')?.hasError('AtLeastOneNumber')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Debe haber al menos un número</div>
+            }
+            @if(formReactivo.get('password')?.hasError('AtLeastOneEspecialCarac')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Debe haber al menos un caracter especial
+            </div>
+            }
+            @if(formReactivo.get('password')?.hasError('WhiteSpaceError')) {
+            <div class="text-danger align-self-end" style="width: 500px;">No pueden haber espacios en blanco</div>
+            }
+            }
+
+        </div>
+
+        <!-- Repeat Contraseña -->
+        <div class="col-md-12 mb-4">
+            <label for="rPassword" class="form-label text-orange"> Repetir Contraseña </label>
+            <div class="input-group">
+                <span class="input-group-text bg-orange border-brown">
+                    <i class="fas fa-lock text-orange"></i>
+                </span>
+                <input [type]="showPasswordRepeat ? 'text' : 'password'" id="rPassword"
+                    class="form-control shadow-sm border-brown" formControlName="repeatPassword" [ngClass]="{'is-invalid': ((formReactivo.get('repeatPassword')?.invalid || formReactivo.hasError('passwordMismatch')) 
+                && formReactivo.get('repeatPassword')?.touched) }">
+
+                <button class="btn btn-outline-brown" type="button"
+                    (click)="showPasswordRepeat = !showPasswordRepeat">
+                    <i class="fas {{ showPasswordRepeat ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                </button>
+            </div>
+
+            <!-- ERRORES -->
+            @if ((formReactivo.get('repeatPassword')?.invalid || formReactivo.hasError('passwordMismatch')) &&
+            formReactivo.get('repeatPassword')?.touched) {
+            @if(formReactivo.get('repeatPassword')?.hasError('required') &&
+            !formReactivo.hasError('passwordMismatch')){
+            <div class="text-danger align-self-end" style="width: 500px;">Repetir contraseña es requerido</div>
+            }
+            @else {
+            <div class="text-danger align-self-end" style="width: 500px;">Las contraseñas no coinciden</div>
+            }
+            }
+
+        </div>
+
+        <!-- BOTON SUBMIT -->
+        <button type="submit" class="btn btn-block next-btn w-100" style="margin-bottom: 25px;"
+            [disabled]="isFormInvalid">
+            Completar Registro
+        </button>
+    </form>
+</div>

@@ -1,0 +1,78 @@
+<div class="container mt-3">
+    <h5 style="margin-top: -5px; display: inline-block; padding-bottom: 10px;" class="text-center green-title">
+        Agregar Insumo</h5>
+
+    <!-- Formulario -->
+    <form [formGroup]="formReactivo" (ngSubmit)="saveSupply()" class="new-supply-form">
+        <div class="mb-3">
+            <!-- nombre -->
+            <label for="name" class="form-label">Nombre del insumo</label>
+            <input id="name" type="text" class="form-control" formControlName="name"
+                [ngClass]="{'is-invalid': formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched}">
+
+            <!-- errores -->
+            @if(formReactivo.get('name')?.invalid && formReactivo.get('name')?.touched) {
+            @if(formReactivo.get('name')?.hasError('required')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+            }
+            }
+        </div>
+
+        <div class="mb-3">
+            <!-- unidad -->
+            <label for="unidad" class="form-label">Unidad de medida</label>
+            <select id="unidad" class="form-select" formControlName="unit">
+                <option value="KG">Kilogramos</option>
+                <option value="LITRO">Litros</option>
+                <option value="UNIDAD">Unidades</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <!-- stock bajo -->
+            <label for="stockb" class="form-label">Stock bajo <span class="span-extra">(recibirás un email
+                    cuando se llegue a esta
+                    cantidad)</span></label>
+            <input id="stockb" type="number" class="form-control" formControlName="stockMin"
+                [ngClass]="{'is-invalid': formReactivo.get('stockMin')?.invalid && formReactivo.get('stockMin')?.touched}">
+
+            <!-- errores -->
+            @if(formReactivo.get('stockMin')?.invalid && formReactivo.get('stockMin')?.touched) {
+            @if(formReactivo.get('stockMin')?.hasError('required')) {
+            <div class="text-danger align-self-end" style="width: 500px;">Campo requerido</div>
+            }
+            @if(formReactivo.get('stockMin')?.hasError('min')) {
+            <div class="text-danger align-self-end" style="width: 500px;">El mínimo es 1</div>
+            }
+            }
+        </div>
+
+        <div class="mb-4">
+            <!-- categoría -->
+            <label for="cat" class="form-label">Categoría</label>
+            <select id="cat" class="form-select" formControlName="categoryId">
+                @for (category of categories; track $index) {
+                <option [value]="category.id">
+                    {{ category.name }}
+                </option>
+            }
+            </select>
+        </div>
+
+        <!-- btn guardar -->
+        <div class="gap-2 text-center">
+            <button type="submit" class="green-btn" [disabled]="formReactivo.invalid">Guardar Insumo</button>
+        </div>
+    </form>
+
+    <!-- FOOTER -->
+    <div class="mt-4 text-center" style="padding-top: 14px;">
+        <a class="footer-link" style="color: #e79e36; text-decoration: none; margin-right: 10px;"
+            routerLink="/terminos">Términos y Condiciones <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+        <span> | </span>
+        <a class="footer-link" style="color: #e79e36 ; text-decoration: none; margin-left: 10px;"
+            routerLink="/preguntas">Preguntas Frecuentes <i class="fas fa-external-link-alt fa-xs ms-1"
+                aria-hidden="true"></i></a>
+    </div>
+</div>

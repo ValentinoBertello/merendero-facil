@@ -1,0 +1,226 @@
+<!-- NAVBAR PRINCIPAL -->
+<nav class="navbar main-navbar navbar-expand-lg navbar-dark bg-dark px-0">
+  <div class="container-fluid g-0">
+    <!-- LOGO + TÍTULO -->
+    <a class="navbar-brand p-0 me-0 d-flex align-items-center" routerLink="/list-merenderos">
+      <img class="img-logo" src="ChatGPT Image 13 abr 2025, 23_46_57 (2).png" alt="Logo Merendero">
+      <span class="navbar-title">Merendero Fácil</span>
+    </a>
+
+    <!-- Boton responsive -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- MENÚ PRINCIPAL -->
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- Usuarios activos (admin) -->
+        @if (authService.isAuthenticated() && authService.hasRole('ADMIN')) {
+        <li class="nav-item mx-2">
+          <a class="nav-link" routerLink="/list-users">
+            <i class="fas fa-users me-1"></i> Usuarios activos
+          </a>
+        </li>
+        }
+
+        <!--(Encargado) -->
+        @if (authService.hasRole('ENCARGADO')) {
+        <!-- Control de stock -->
+        <li class="nav-item mx-2">
+          <a class="nav-link" style="cursor: pointer" routerLink="/stock/inventario">
+            <i class="fas fa-warehouse me-1"></i> Control de Stock
+          </a>
+        </li>
+        <!-- Donaciones -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="merenderoDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="cursor: pointer">
+            <i class="fas fa-hand-holding-heart me-1"></i> Donaciones
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="merenderoDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/donaciones">
+                Listado
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/donaciones/reportes">
+                Reportes
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        } @else {
+        <!-- Boton de registro de merendero (user no autenticado) -->
+        <li class="nav-item mx-2">
+          <a class="nav-link" (click)="handleCreateMerendero()" style="cursor: pointer">
+            <i class="fas fa-store"></i> Registra tu merendero!
+          </a>
+        </li>
+        }
+
+        <!-- Boton para registrarse (user no autenticado) -->
+        @if (!authService.isAuthenticated()) {
+        <li class="nav-item mx-2">
+          <a class="nav-link" routerLink="/create-user">
+            <i class="fas fa-user-plus me-1"></i> Registrarse
+          </a>
+        </li>
+        }
+
+        <!-- Email del user autenticado -->
+        @if (authService.isAuthenticated()) {
+        <li class="nav-item mx-2">
+          <a class="nav-link" style="cursor: pointer">
+            {{this.authService.getCurrentUserEmail()}}
+          </a>
+        </li>
+        }
+
+        <li class="nav-item mx-2">
+          <!-- Iniciar sesion -->
+          @if (!authService.isAuthenticated()) {
+          <a class="nav-link" routerLink="/login-user">
+            <i class="fas fa-sign-in-alt me-1"></i> Iniciar Sesión
+          </a>
+          } @else {
+          <!-- Cerrar sesion -->
+          <a class="nav-link" (click)="showLogoutAlert()" style="cursor: pointer">
+            <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
+          </a>
+          }
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- NAVBAR STOCK -->
+@if (showStockNavbar) {
+
+<nav class="navbar navbar-expand-lg navbar-dark stock-navbar px-0">
+  <div class="container-fluid g-0" style="margin-left: 25px;">
+    <!-- Título -->
+    <a class="pl-3 navbar-brand stock-title">
+      <i class="fas fa-warehouse me-1"></i>
+      Stock
+    </a>
+
+    <!-- Botón responsive -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#stockNavbarContent"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Opciones de menú -->
+    <div class="collapse navbar-collapse flex-grow-0" id="stockNavbarContent">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- Insumos -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="insumosDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="cursor: pointer">
+            <i class="fas fa-utensils me-1"></i> Insumos
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="insumosDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/stock/insumos">
+                Ver Insumos
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/stock/add-supply">
+                Agregar Insumo
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Inventario -->
+        <li class="nav-item mx-2">
+          <a class="nav-link" routerLink="/stock/inventario">
+            <i class="fas fa-list me-1"></i> Inventario
+          </a>
+        </li>
+
+        <!-- Movimientos -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="movimientosDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="cursor: pointer">
+            <i class="fas fa-history me-1"></i> Movimientos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="movimientosDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/stock/movimientos/entradas">
+                Entradas
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="stock/add-entry">
+                Agregar Entrada
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/stock/movimientos/salidas">
+                Salidas
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="stock/add-output">
+                Agregar Salida
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Gastos -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="gastosDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="cursor: pointer">
+            <i class="fas fa-wallet me-1"></i> Gastos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="gastosDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/stock/movimientos/gastos">
+                Ver Gastos
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/stock/add-expense">
+                Agregar Gasto
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Reportes stock -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="cursor: pointer">
+            <i class="fas fa-chart-bar me-1"></i> Reportes
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="reportesDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/stock/reporte-1">
+                Entradas y Salidas
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/stock/reporte-2">
+                Gastos
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+}
+<router-outlet></router-outlet>
