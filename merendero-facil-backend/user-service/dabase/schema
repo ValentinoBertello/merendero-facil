@@ -1,0 +1,65 @@
+CREATE DATABASE IF NOT EXISTS user_service;
+USE user_service;
+
+CREATE TABLE roles (
+    id BIGINT  PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO roles (name) VALUES
+('ROLE_ADMIN'),
+('ROLE_ENCARGADO'),
+('ROLE_DONADOR');
+
+CREATE TABLE users (
+    id BIGINT  PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_datetime DATETIME,
+	last_updated_datetime DATETIME,
+	created_user BIGINT ,
+    last_updated_user BIGINT
+);
+
+CREATE TABLE users_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+INSERT INTO users (id, name, lastname, email, password, active, created_datetime, created_user)
+VALUES (
+    666,
+    'Admin',
+    'Bertello',
+    'admin@gmail.com',
+    '$2a$10$wjFdPwEYeKm1dR2ae26OUevl4.eJAVeK3qiv9pteo8y/IdgMBfdwe', -- Hash BCrypt de angusyoung12344
+    1, -- active = true
+    CURRENT_TIMESTAMP,
+    1 -- created_user
+);
+
+INSERT INTO users_roles (user_id, role_id) VALUES
+(666, 1), -- ROLE_ADMIN
+(666, 2); -- ROLE_ENCARGADO
+(666, 3), -- ROLE_DONADOR
+
+INSERT INTO users (id, name, lastname, email, password, active, created_datetime, created_user)
+VALUES (
+    13,
+    'AVenida',
+    'Libertad',
+    'merenderoAv.libertad@gmail.com',
+    '$2a$10$zBMmbBLIaxFLdbmZyn.5P.vlGsEjlZN82R1U2QxMb6U0H0xy33SIy', -- Hash BCrypt de 123456
+    1, -- active = true
+    CURRENT_TIMESTAMP,
+    1 -- created_user
+);
+
+INSERT INTO users_roles (user_id, role_id) VALUES
+(13, 3), -- ROLE_DONADOR

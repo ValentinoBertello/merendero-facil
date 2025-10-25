@@ -1,0 +1,107 @@
+CREATE DATABASE IF NOT EXISTS merendero_service;
+USE merendero_service;
+
+CREATE TABLE merenderos (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+   name VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    access_token VARCHAR(255),
+    capacity INT NOT NULL,
+    days_open VARCHAR(100) NOT NULL,
+    latitude DECIMAL(10, 8) NOT NULL,
+    longitude DECIMAL(11, 8) NOT NULL,
+	opening_time TIME NOT NULL,
+	closing_time TIME NOT NULL,
+	manager_id BIGINT NOT NULL,
+	manager_email VARCHAR(100) UNIQUE NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+	created_datetime DATETIME,
+	last_updated_datetime DATETIME,
+    created_user BIGINT ,
+    last_updated_user BIGINT
+);
+
+CREATE TABLE donations  (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    user_email VARCHAR(100) NOT NULL,
+    merendero_id BIGINT NOT NULL,
+    donation_date DATETIME,
+    payment_id VARCHAR(100) NOT NULL,
+    gross_amount DECIMAL(10,2) NOT NULL,
+    mp_fee DECIMAL(10,2) NOT NULL,
+    net_amount DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (merendero_id) REFERENCES merenderos(id)
+);
+
+
+-- Auditoría para merenderos
+CREATE TABLE merenderos_audit (
+    version_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT,
+    version BIGINT,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    access_token VARCHAR(255),
+    capacity INT NOT NULL,
+    days_open VARCHAR(100) NOT NULL,
+    latitude DECIMAL(10, 8) NOT NULL,
+    longitude DECIMAL(11, 8) NOT NULL,
+    opening_time TIME NOT NULL,
+    closing_time TIME NOT NULL,
+    manager_id BIGINT NOT NULL,
+    manager_email VARCHAR(100) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_datetime DATETIME,
+    last_updated_datetime DATETIME,
+    created_user BIGINT,
+    last_updated_user BIGINT
+);
+
+DELIMITER $$
+
+-- Insert Trigger for Soup Kitchens
+CREATE TRIGGER trg_merenderos_insert
+AFTER INSERT ON merenderos
+FOR EACH ROW
+BEGIN
+    INSERT INTO merenderos_audit (
+        id, version, name, address, access_token, latitude, longitude, capacity, days_open,
+        opening_time, closing_time, manager_id, manager_email, active,
+        created_datetime, last_updated_datetime, created_user, last_updated_user
+    )
+    VALUES (
+        NEW.id, 1, NEW.name, NEW.address, NEW.access_token, NEW.latitude, NEW.longitude, NEW.capacity, NEW.days_open,
+        NEW.opening_time, NEW.closing_time, NEW.manager_id, NEW.manager_email, NEW.active,
+        NEW.created_datetime, NEW.last_updated_datetime, NEW.created_user, NEW.last_updated_user
+    );
+END $$
+
+-- Update Trigger for Soup Kitchens
+CREATE TRIGGER trg_merenderos_update
+AFTER UPDATE ON merenderos
+FOR EACH ROW
+BEGIN
+    DECLARE latest_version BIGINT;
+
+    -- Obtener la última versión del merendero auditado
+    SELECT MAX(version) INTO latest_version
+    FROM merenderos_audit
+    WHERE id = NEW.id;
+
+    SET latest_version = IFNULL(latest_version, 0) + 1;
+
+    -- Insertar la nueva versión en la tabla de auditoría
+    INSERT INTO merenderos_audit (
+        id, version, name, address, access_token, latitude, longitude, capacity, days_open,
+        opening_time, closing_time, manager_id, manager_email, active,
+        created_datetime, last_updated_datetime, created_user, last_updated_user
+    )
+    VALUES (
+        NEW.id, latest_version, NEW.name, NEW.address, NEW.access_token, NEW.latitude, NEW.longitude, NEW.capacity, NEW.days_open,
+        NEW.opening_time, NEW.closing_time, NEW.manager_id, NEW.manager_email, NEW.active,
+        NEW.created_datetime, NEW.last_updated_datetime, NEW.created_user, NEW.last_updated_user
+    );
+END $$
+
+DELIMITER ;
