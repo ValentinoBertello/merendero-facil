@@ -59,9 +59,15 @@ public class LotServiceImpl implements LotService {
             }
             // Si el lote tiene suficiente cantidad para cubrir lo que falta:
             if (remaining.compareTo(l.getCurrentQuantity()) <= 0) {
-                // restamos la cantidad necesaria y actualizamod el lote
-                l.setCurrentQuantity(l.getCurrentQuantity().subtract(remaining));
-                this.lotRepository.save(l);
+                BigDecimal newQuantity = l.getCurrentQuantity().subtract(remaining);
+                if (newQuantity.compareTo(BigDecimal.ZERO) <= 0) {
+                    // Lote completamente consumido → eliminar
+                    this.lotRepository.delete(l);
+                } else {
+                    // Lote parcialmente consumido → guardar
+                    l.setCurrentQuantity(newQuantity);
+                    this.lotRepository.save(l);
+                }
                 remaining = BigDecimal.ZERO;
             }
             // Si el lote no alcanza para cubrir lo que falta:

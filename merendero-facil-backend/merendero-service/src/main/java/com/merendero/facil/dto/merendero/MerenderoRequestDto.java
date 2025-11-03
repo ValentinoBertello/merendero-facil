@@ -54,5 +54,4 @@ public class MerenderoRequestDto {
     @Email(message = "Debe ser un email válido")
     @Size(min = 5, max = 100, message = "El email debe tener entre 5 y 100 caracteres")
     private String managerEmail;
-
 }
