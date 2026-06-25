@@ -40,6 +40,3 @@
 . Formularios reactivos con validación síncrona y asíncrona en tiempo real  
 
 . Dashboard interactivo con gráficos responsive (Google Charts)  
-
-
-> Este proyecto fue desarrollado como parte de la Práctica Supervisada de la carrera Tecnicatura Universitaria en Programación en la Universidad Tecnológica Nacional.
